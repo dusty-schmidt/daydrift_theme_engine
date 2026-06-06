@@ -1,0 +1,439 @@
+/* ==========================================================================
+   CIRCADIAN THEME — Lean Plugin CSS
+   ========================================================================== 
+
+   ARCHITECTURE PRINCIPLE:
+   The Agent Zero core CSS already maps the official --color-* variables to
+   most real elements automatically. This plugin only needs to handle the
+   two things the core does NOT do:
+
+     1. SURFACE BACKGROUNDS for #left-panel / #right-panel / .sidebar-shell
+        (the core's .panel rule sets layout, not background-color)
+
+     2. SCOPED TEXT CONTRAST — the plugin's genuine value-add.
+        Daytime chat surfaces can be very light while sidebars stay dark.
+        A single --color-text cannot serve both. The engine computes
+        per-surface text tokens (frameText, windowText, chatText, messageText)
+        from contrast ratios; this CSS applies them to the correct zones.
+
+   Everything else (#chat-history, #input-section, modals, dropdowns,
+   buttons, body) is already styled by the core using --color-panel and
+   --color-chat-background. DO NOT add redundant rules for those.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   A. TRANSITIONS
+   Smooth phase-to-phase colour fades on the surfaces the plugin owns.
+   -------------------------------------------------------------------------- */
+body.dynamic-circadian-theme #left-panel,
+body.dynamic-circadian-theme #right-panel,
+body.dynamic-circadian-theme .sidebar-shell {
+  transition: background-color 1.6s ease, border-color 1.6s ease;
+}
+
+body.dynamic-circadian-theme #chat-history,
+body.dynamic-circadian-theme #input-section {
+  transition: background-color 1.6s ease, color 1.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.dynamic-circadian-theme #left-panel,
+  body.dynamic-circadian-theme #right-panel,
+  body.dynamic-circadian-theme .sidebar-shell,
+  body.dynamic-circadian-theme #chat-history,
+  body.dynamic-circadian-theme #input-section {
+    transition: none !important;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   B. SURFACE BACKGROUNDS
+   Only the surfaces the core does NOT background by itself.
+   -------------------------------------------------------------------------- */
+
+/* SIDEBAR ZONE: outer shell + left panel */
+body.dynamic-circadian-theme .sidebar-shell,
+body.dynamic-circadian-theme #left-panel {
+  background: var(--color-panel) !important;
+}
+
+/* RIGHT PANEL ZONE: the main right-side frame (and dashboard background).
+   Uses chat background so the dashboard and chat area share a cohesive surface. */
+body.dynamic-circadian-theme #right-panel {
+  background: var(--color-chat-background) !important;
+}
+
+/* LOGO / BANNER ZONE: the Agent Zero SVG banner + hamburger icon at top of sidebar.
+   By default this element reads --color-chat-background (core inline style).
+   Rule: this element must ALWAYS match the panel background, not the chat window. */
+body.dynamic-circadian-theme .sidebar-header-panel,
+body.dynamic-circadian-theme #sidebar-header-panel {
+  background: var(--color-panel) !important;
+  background-color: var(--color-panel) !important;
+}
+
+/* DASHBOARD ZONE: match chat background for cohesion and readability.
+   Prevents the default dark dashboard from clashing with adapted light text. */
+body.dynamic-circadian-theme #dashboard,
+body.dynamic-circadian-theme .view-dashboard,
+body.dynamic-circadian-theme .dashboard-grid,
+body.dynamic-circadian-theme .main-content {
+  background: var(--color-chat-background) !important;
+}
+
+/* DASHBOARD WATERMARK: Hide the Agent Zero SVG logo watermark.
+   It's hardcoded for dark backgrounds. Hiding it gives a clean Slate surface. */
+body.dynamic-circadian-theme .welcome-container::before {
+  display: none !important;
+}
+
+/* DASHBOARD CONTAINER: Force the inner wrapper to match the chat background.
+   Overrides the hardcoded dark olive default. */
+body.dynamic-circadian-theme .welcome-container {
+  background: var(--color-chat-background) !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   C. BODY GRADIENT
+   Subtle radial glow behind the main background.
+   -------------------------------------------------------------------------- */
+body.dynamic-circadian-theme {
+  background:
+    radial-gradient(circle at 18% 8%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 34rem),
+    radial-gradient(circle at 88% 22%, color-mix(in srgb, var(--color-highlight) 12%, transparent), transparent 40rem),
+    var(--color-background);
+}
+
+
+/* --------------------------------------------------------------------------
+   D. SCOPED TEXT CONTRAST
+   Each zone uses its own text token, computed by the engine from contrast
+   ratios against that zone's background.
+
+   ZONE MAP:
+     Sidebar (#left-panel, .sidebar-shell)  → --color-frame-text
+     Right panel chrome (#right-panel)      → --color-frame-text
+     Bottom input (#input-section)          → --color-frame-text
+     Chat window (#chat-history)            → --color-chat-text
+     Message bubbles (.message-*)           → --color-message-text
+
+   Note: --color-frame-text is computed from --color-panel background.
+         --color-chat-text is computed from --color-chat-background.
+         --color-message-text is computed from --color-message-bg.
+   -------------------------------------------------------------------------- */
+
+/* Sidebar + input zone text (all panel-background surfaces) */
+body.dynamic-circadian-theme #left-panel,
+body.dynamic-circadian-theme #left-panel *,
+body.dynamic-circadian-theme .sidebar-shell,
+body.dynamic-circadian-theme .sidebar-shell *,
+body.dynamic-circadian-theme .sidebar-header-panel,
+body.dynamic-circadian-theme .sidebar-header-panel *,
+body.dynamic-circadian-theme #sidebar-header-panel,
+body.dynamic-circadian-theme #sidebar-header-panel *,
+body.dynamic-circadian-theme #input-section,
+body.dynamic-circadian-theme #input-section *,
+body.dynamic-circadian-theme #progress-bar-box,
+body.dynamic-circadian-theme #progress-bar-box *,
+body.dynamic-circadian-theme #chat-nav-buttons,
+body.dynamic-circadian-theme #chat-nav-buttons * {
+  color: var(--color-frame-text) !important;
+}
+
+/* Chat history window text */
+body.dynamic-circadian-theme #chat-history,
+body.dynamic-circadian-theme #chat-history .message-group,
+body.dynamic-circadian-theme #chat-history .message-container,
+body.dynamic-circadian-theme #chat-history .message,
+body.dynamic-circadian-theme #chat-history .message-body,
+body.dynamic-circadian-theme #chat-history .msg-content,
+body.dynamic-circadian-theme #chat-history .message-text,
+body.dynamic-circadian-theme #chat-history .process-group,
+body.dynamic-circadian-theme #chat-history .process-group-header,
+body.dynamic-circadian-theme #chat-history .process-group-content,
+body.dynamic-circadian-theme #chat-history .process-step,
+body.dynamic-circadian-theme #chat-history .process-step-header,
+body.dynamic-circadian-theme #chat-history .process-step-detail-content,
+body.dynamic-circadian-theme #chat-history .msg-kvps,
+body.dynamic-circadian-theme #chat-history .msg-kvps *,
+body.dynamic-circadian-theme #chat-history p,
+body.dynamic-circadian-theme #chat-history pre,
+body.dynamic-circadian-theme #chat-history strong,
+body.dynamic-circadian-theme #chat-history span,
+body.dynamic-circadian-theme #chat-history button {
+  color: var(--color-chat-text) !important;
+}
+
+/* Terminal output inside chat: use raw --color-text (monospace readability) */
+body.dynamic-circadian-theme #chat-history .terminal-output,
+body.dynamic-circadian-theme #chat-history .terminal-output * {
+  color: var(--color-text) !important;
+}
+
+/* Message bubble text */
+body.dynamic-circadian-theme .message-user *,
+body.dynamic-circadian-theme .message-assistant *,
+body.dynamic-circadian-theme .message-tool * {
+  color: var(--color-message-text) !important;
+}
+
+/* Right-panel chrome: clock, notification bell, canvas rail.
+   These sit over the chat backdrop and must follow --color-window-text
+   so they adapt when chat-background shifts light/dark. */
+body.dynamic-circadian-theme .notification-toggle,
+body.dynamic-circadian-theme .notification-toggle *,
+body.dynamic-circadian-theme .right-canvas-rail,
+body.dynamic-circadian-theme .right-canvas-rail *,
+body.dynamic-circadian-theme .right-canvas-rail-button,
+body.dynamic-circadian-theme .right-canvas-rail-button * {
+  color: var(--color-window-text) !important;
+}
+
+/* Clock text — uses window text so it adapts to the chat background's brightness.
+   Prevents invisible white text during light daytime phases. */
+body.dynamic-circadian-theme #time-date,
+body.dynamic-circadian-theme #time-date * {
+  color: var(--color-window-text) !important;
+}
+
+/* Muted secondary text — panel surfaces use frame-text-muted, chat uses text-muted */
+body.dynamic-circadian-theme #left-panel .text-muted,
+body.dynamic-circadian-theme #left-panel .muted,
+body.dynamic-circadian-theme #left-panel small,
+body.dynamic-circadian-theme #right-panel .text-muted,
+body.dynamic-circadian-theme #right-panel .muted,
+body.dynamic-circadian-theme #right-panel small,
+body.dynamic-circadian-theme .sidebar-shell .text-muted,
+body.dynamic-circadian-theme .sidebar-shell .muted,
+body.dynamic-circadian-theme .sidebar-shell small,
+body.dynamic-circadian-theme #input-section .text-muted,
+body.dynamic-circadian-theme #input-section .muted,
+body.dynamic-circadian-theme #input-section small {
+  color: var(--color-frame-text-muted, var(--color-text-muted)) !important;
+}
+body.dynamic-circadian-theme .text-muted,
+body.dynamic-circadian-theme .muted,
+body.dynamic-circadian-theme small {
+  color: var(--color-text-muted) !important;
+}
+
+/* Welcome screen action card icons — inherit text color, not --color-primary */
+body.dynamic-circadian-theme .welcome-action-icon {
+  color: var(--color-text) !important;
+}
+
+/* Cross-surface accent tokens: engine computes chat-specific variants.
+   ZONE MAP:
+     Sidebar frame elements     → --color-accent (panel-optimized)
+     Chat history links/accents → --color-chat-accent (chat-bg-optimized)
+     Panel error text           → --color-error-panel (panel-optimized)
+     Chat error text            → --color-error-text (chat-bg-optimized)
+
+   Note: --color-chat-accent is computed from --color-chat-background.
+         --color-error-panel is computed from --color-panel.
+-------------------------------------------------------------------------- */
+
+/* Chat-area accent/primary: use the chat-optimized variants. */
+body.dynamic-circadian-theme #chat-history a,
+body.dynamic-circadian-theme #chat-history .process-step-header {
+  color: var(--color-chat-accent) !important;
+}
+body.dynamic-circadian-theme #chat-history a:hover {
+  text-decoration-color: var(--color-chat-accent);
+}
+
+/* Panel error text: use the panel-optimized variant. */
+body.dynamic-circadian-theme #left-panel .error-text,
+body.dynamic-circadian-theme #left-panel .text-error,
+body.dynamic-circadian-theme #right-panel .error-text,
+body.dynamic-circadian-theme #right-panel .text-error,
+body.dynamic-circadian-theme .sidebar-shell .error-text,
+body.dynamic-circadian-theme .sidebar-shell .text-error {
+  color: var(--color-error-panel) !important;
+}
+
+/* Plugin list directory path — lighten from --color-text-muted but not full white */
+body.dynamic-circadian-theme .plugin-path {
+  color: color-mix(in srgb, var(--color-text) 55%, var(--color-text-muted)) !important;
+}
+
+/* Settings modal nav icons — inactive state uses --color-text-muted which
+   is blue-ish and hard to see on dark panels. Override to match text. */
+body.dynamic-circadian-theme .settings-tab .material-symbols-outlined,
+body.dynamic-circadian-theme .settings-section-link .material-symbols-outlined {
+  color: var(--color-frame-text) !important;
+}
+/* Active state — let --color-primary show through */
+body.dynamic-circadian-theme .settings-tab.active .material-symbols-outlined,
+body.dynamic-circadian-theme .settings-section-link.active .material-symbols-outlined {
+  color: var(--color-primary) !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   E2. SETTINGS / MODAL SURFACES
+   Settings modals need lighter surfaces than the page background so they
+   don't sink into the dark phases. Lift panel-based surfaces with color-mix.
+   -------------------------------------------------------------------------- */
+
+/* Modal container — lift above page background */
+body.dynamic-circadian-theme .modal-inner.settings-modal {
+  background: color-mix(in srgb, var(--color-panel) 82%, var(--color-chat-background) 18%) !important;
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, var(--color-chat-background) 40%);
+}
+
+/* Modal content area — lighter than the modal shell */
+body.dynamic-circadian-theme .settings-content {
+  background: color-mix(in srgb, var(--color-panel) 72%, var(--color-chat-background) 28%) !important;
+}
+
+/* Settings nav sidebar — slightly lifted from the content */
+body.dynamic-circadian-theme .settings-nav-group,
+body.dynamic-circadian-theme .settings-nav-group * {
+  color: var(--color-frame-text) !important;
+}
+body.dynamic-circadian-theme .settings-nav-group-active {
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-panel)) !important;
+}
+
+/* Form inputs — make them pop against the lifted surfaces */
+body.dynamic-circadian-theme .modal-inner.settings-modal input[type="text"],
+body.dynamic-circadian-theme .modal-inner.settings-modal input[type="password"],
+body.dynamic-circadian-theme .modal-inner.settings-modal input[type="number"],
+body.dynamic-circadian-theme .modal-inner.settings-modal textarea,
+body.dynamic-circadian-theme .modal-inner.settings-modal select {
+  background: color-mix(in srgb, var(--color-panel) 60%, var(--color-chat-background) 40%) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-chat-text) !important;
+}
+body.dynamic-circadian-theme .modal-inner.settings-modal input:focus,
+body.dynamic-circadian-theme .modal-inner.settings-modal textarea:focus,
+body.dynamic-circadian-theme .modal-inner.settings-modal select:focus {
+  border-color: var(--color-accent) !important;
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+/* Field labels — readable against lifted backgrounds */
+body.dynamic-circadian-theme .modal-inner.settings-modal .field-title {
+  color: var(--color-frame-text) !important;
+}
+body.dynamic-circadian-theme .modal-inner.settings-modal .field-description {
+  color: var(--color-text-muted) !important;
+}
+
+/* Settings modal header */
+body.dynamic-circadian-theme .modal-inner.settings-modal .modal-header {
+  border-bottom-color: var(--color-border) !important;
+}
+
+/* Settings advanced toggle buttons */
+body.dynamic-circadian-theme .settings-advanced-toggle {
+  color: var(--color-accent) !important;
+}
+
+/* Update cards inside settings */
+body.dynamic-circadian-theme .settings-update-card {
+  background: color-mix(in srgb, var(--color-panel) 65%, var(--color-chat-background) 35%) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* --------------------------------------------------------------------------
+   E. SUBTLE ACCENT TOUCHES
+   Small pops of colour that shift with the circadian phase.
+   -------------------------------------------------------------------------- */
+
+/* Selection / highlight — uses accent for a soft in-text pop */
+body.dynamic-circadian-theme ::selection {
+  background: color-mix(in srgb, var(--color-accent) 28%, transparent);
+  color: inherit;
+}
+
+/* Focus rings — gentle accent glow on interactive elements */
+body.dynamic-circadian-theme input:focus,
+body.dynamic-circadian-theme textarea:focus,
+body.dynamic-circadian-theme select:focus,
+body.dynamic-circadian-theme button:focus-visible,
+body.dynamic-circadian-theme a:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 60%, transparent);
+  outline-offset: 2px;
+}
+
+/* Sidebar hover — subtle highlight sweep on chat list items */
+body.dynamic-circadian-theme .chat-item:hover,
+body.dynamic-circadian-theme .sidebar-item:hover,
+body.dynamic-circadian-theme .nav-item:hover {
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+
+/* Sidebar active/selected item — slightly stronger accent tint */
+body.dynamic-circadian-theme .chat-item.active,
+body.dynamic-circadian-theme .sidebar-item.active,
+body.dynamic-circadian-theme .nav-item.active {
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+}
+
+/* Links in chat — accent-tinted with subtle underline */
+body.dynamic-circadian-theme #chat-history a {
+  color: color-mix(in srgb, var(--color-accent) 75%, var(--color-chat-text)) !important;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  text-underline-offset: 2px;
+}
+body.dynamic-circadian-theme #chat-history a:hover {
+  text-decoration-color: var(--color-accent);
+}
+
+/* Code blocks — thin accent left-border */
+body.dynamic-circadian-theme #chat-history pre {
+  border-left: 3px solid color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+}
+
+/* Scrollbar — thin accent-tinted track for sidebars and chat */
+body.dynamic-circadian-theme #left-panel ::-webkit-scrollbar-thumb,
+body.dynamic-circadian-theme #right-panel ::-webkit-scrollbar-thumb,
+body.dynamic-circadian-theme #chat-history ::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-accent) 30%, var(--color-border));
+}
+body.dynamic-circadian-theme #left-panel ::-webkit-scrollbar-thumb:hover,
+body.dynamic-circadian-theme #right-panel ::-webkit-scrollbar-thumb:hover,
+body.dynamic-circadian-theme #chat-history ::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-accent) 50%, var(--color-border));
+}
+
+/* Horizontal dividers — faint accent tint */
+body.dynamic-circadian-theme hr {
+  border-color: color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
+}
+
+
+/* --------------------------------------------------------------------------
+   F. MISC PLUGIN-SPECIFIC OVERRIDES
+   Small set of rules for plugin UI that has no core equivalent.
+   -------------------------------------------------------------------------- */
+
+/* Hide the dark-mode toggle (plugin owns dark/light mode, toggle is redundant) */
+body.dynamic-circadian-theme .dynamic-circadian-hide-dark-toggle {
+  display: none !important;
+}
+
+/* Preview mode badge: shows current phase + % completion */
+body.dynamic-circadian-theme[data-circadian-preview="true"]::after {
+  content: attr(data-circadian-phase-display);
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 9999;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--color-panel) 88%, transparent);
+  color: var(--color-frame-text) !important;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+  box-shadow: 0 0 1.2rem color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
