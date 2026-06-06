@@ -1,144 +1,66 @@
 # Daydrift Theme Engine
 
-A zero-configuration Agent Zero WebUI theme that follows your local browser time, drifting through a rich circadian palette across the day with unique, per-user daily variation.
+A theme for the Agent Zero WebUI that shifts colors based on the local browser time. The palette moves through 13 phases across the day, and the colors evolve per user as the days pass.
 
-## What it does
+## How it works
 
-- **Circadian Palette:** Transitions continuously through 13 phases: midnight, deep night, predawn, dawn, sunrise, morning, late morning, solar noon, afternoon, golden hour, dusk, evening, and late evening.
-- **Daily Drift:** Adds subtle, deterministic color variation so no two local days are exactly alike, while keeping the palette stable during a single day.
-- **WCAG Contrast Guarantee:** The engine **automatically enforces** contrast ratios. Accents, borders, and secondary colors are dynamically adjusted to guarantee readability on both dark panels and light daytime chat backgrounds. You only need to pick colors that look good aesthetically.
-- **Zero-Friction:** Requires no user configuration and exposes no settings panel. Hides the default **Dark mode** toggle in Preferences while active.
-- **Non-Destructive:** Uses Agent Zero CSS variables instead of editing core WebUI files.
+### A 13-phase day
 
----
+The engine defines 13 named phases anchored to clock minutes: midnight, deep_night, predawn, dawn, sunrise, morning, late_morning, solar_noon, afternoon, golden_hour, dusk, evening, and late_evening. For any minute of the day, the engine finds the two surrounding phases and smoothly blends between their color palettes. There are no visible boundaries between phases, just a continuous transition from night to day and back.
 
-## 🎨 Color Customization Guide
+### A theme that remembers you
 
-Want to tweak the colors to match your aesthetic? You no longer need to be a color-science expert. The engine handles accessibility automatically.
+Daily variance is not random. The engine keeps a small record of how the theme has drifted over time, stored in your browser. Each day it nudges that record forward and uses it to shape today's colors. The further the theme wanders from its starting point, the more the math pulls it back, like a rubber band. It explores freely near the center but never gets lost.
 
-### The 17-Color Palette
-To change colors, open `webui/circadian-engine.mjs` and find the `DEFAULT_PHASES` array. Each phase calls the `palette()` function with exactly **17 arguments** in this order:
+Every user gets a unique starting point generated on first load, so two people in the same timezone on the same day will see different themes from day one.
 
-```javascript
-palette(
-  background,    // 1. Main page background
-  text,          // 2. Global fallback text
-  textMuted,     // 3. Muted text (chat areas)
-  primary,       // 4. Primary action buttons/links (panel-optimized)
-  secondary,     // 5. Secondary UI decorations (auto-adjusted)
-  accent,        // 6. Accent glow/hover (panel-optimized)
-  messageBg,     // 7. Message bubble background
-  highlight,     // 8. Selection/highlight glow (panel-optimized)
-  messageText,   // 9. Text inside message bubbles
-  panel,         // 10. Sidebar/card/modal background
-  border,        // 11. Borders (auto-adjusted for 2.0+ contrast)
-  input,         // 12. Input field background
-  inputFocus,    // 13. Input focus glow
-  chatBackground,// 14. Main chat window background
-  tableRow,      // 15. Data table alternating rows
-  errorText,     // 16. Error messages (chat-optimized)
-  warningText    // 17. Warning messages
-)
-```
+### Readable by design
 
-### Step-by-Step Customization
-1. **Identify the zone** you want to change (see UI Map below).
-2. **Open** `webui/circadian-engine.mjs` and find the `DEFAULT_PHASES` array.
-3. **Locate the phase** you want to modify (e.g., `phase('morning', 450, palette(...))`).
-4. **Change the hex code** for the corresponding argument.
-5. **Save and refresh** the WebUI. The engine will automatically recalculate dependent tokens (like `--color-border` and `--color-secondary`) to guarantee readability.
+The engine automatically adjusts text and accent colors to stay readable against both dark sidebars and light daytime chat backgrounds. You don't have to pick accessible colors manually; the engine handles the math so that everything stays legible through every phase of the day.
 
-> 💡 **Dual-Surface Architecture:** The engine computes variants like `chatAccent`, `chatPrimary`, and `errorPanel` automatically. You only set the base `accent` value; the engine ensures it remains readable on *both* dark sidebars and light chat windows.
+## Install
 
-### Visual UI Map
-```
-┌──────────────────────────────────────────────────────────┐
-│  ┌────────────┐  ┌────────────────────────────────────┐ │
-│  │  Sidebar   │  │   Chat / Main Area                 │ │
-│  │ --color-   │  │   --color-chat-background          │ │
-│  │ panel      │  │   --color-chat-text                │ │
-│  │ --color-   │  │   --color-chat-accent (links)      │ │
-│  │ accent     │  │   --color-message-bg (bubbles)     │ │
-│  │ (buttons)  │  │   --color-message-text             │ │
-│  └────────────┘  └────────────────────────────────────┘ │
-│  ┌────────────────────────────────────────────────────┐ │
-│  │ Bottom Input Area                                  │ │
-│  │ --color-panel (bg)  --color-frame-text (text)      │ │
-│  └────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
-```
-
----
-
-## Install Locally
-
-Copy this repository root into your Agent Zero user plugins directory:
+Copy the folder into the Agent Zero plugins directory:
 
 ```bash
 cp -R dynamic_circadian_theme /a0/usr/plugins/dynamic_circadian_theme
 ```
 
-Then refresh Agent Zero or toggle the plugin from the Plugins UI.
+Reload the WebUI and the theme takes over.
 
----
+## Preview a full day
 
-## Preview a Full Day Cycle
-
-After reloading Agent Zero with the plugin active, open the browser developer console and run:
+Open the browser console and run:
 
 ```js
-window.DynamicCircadianTheme.preview.start()
-```
-
-By default this compresses a full 24-hour circadian color cycle into 60 seconds. You can choose a different duration in milliseconds:
-
-```js
-window.DynamicCircadianTheme.preview.start(30000) // 30-second full-day preview
-window.DynamicCircadianTheme.preview.start(120000) // 2-minute full-day preview
-```
-
-Stop preview mode and return to live local time with:
-
-```js
+window.DynamicCircadianTheme.preview.start()      // 60-second cycle
+window.DynamicCircadianTheme.preview.start(30000) // 30-second cycle
 window.DynamicCircadianTheme.preview.stop()
 ```
 
-While preview is running, a small **Circadian preview** badge appears in the lower-right corner of the WebUI.
+A small badge appears in the lower-right corner while previewing.
 
----
-
-## Development & Testing
+## Development
 
 ```bash
-# Run unit and runtime tests
 node --test tests/*.test.mjs
-
-# Validate plugin structure (if preparing for community index)
-python3 scripts/validate_plugin.py
 ```
 
-### Debugging
-At runtime, the plugin exposes a read-only diagnostic object at `window.DynamicCircadianTheme`. By default it contains the current phase, palette, and last update timestamp. For full diagnostics, set `window.__dynamicCircadianThemeDebug = true` before initialization (treat as same-origin debug metadata).
-
----
+The plugin exposes `window.DynamicCircadianTheme` as a read-only diagnostic. Set `window.__dynamicCircadianThemeDebug = true` before initialization for full output.
 
 ## Removal
 
-Disable or delete the plugin folder. It does not edit Agent Zero core files, does not call external services, and does not store secrets. While active it intentionally owns the UI theme mode and writes `localStorage.darkMode = 'true'`. If dark mode remains enabled after removal, open Preferences and reset **Dark mode**, or clear the browser entries `darkMode` and `dynamicCircadianTheme.previousDarkMode` for the Agent Zero WebUI origin.
-
----
+Delete the folder. No core files are edited. If dark mode persists afterward, open Preferences and reset it.
 
 ## Notes
 
-This version approximates circadian phases by local clock time. It intentionally does not request geolocation permissions or call external sunrise/sunset APIs. `always_enabled: false` is intentional in the manifest; community plugins should remain user-toggleable so users can disable or remove the theme without framework-level lock-in.
+- Uses local clock time. No geolocation, no external APIs.
+- Drift state is stored in your browser under `dynamicCircadianTheme.driftState` and `dynamicCircadianTheme.userId`.
 
 ## Community Plugin Index
 
-This repository is structured with plugin contents at the repository root. Before submitting to the Plugin Index:
-
-1. Push this repository to GitHub.
-2. Update `index.yaml` so `github:` points to the real repository URL. The checked-in value is intentionally a placeholder until you provide your GitHub owner/repo.
-3. Run strict community validation: `python3 scripts/validate_plugin.py --strict-index`.
-4. Fork `https://github.com/agent0ai/a0-plugins`.
-5. Add `plugins/dynamic_circadian_theme/index.yaml` to the fork.
-6. Open a PR.
+1. Push this repo to GitHub.
+2. Update `index.yaml` with the real GitHub URL.
+3. Fork `https://github.com/agent0ai/a0-plugins`.
+4. Add `plugins/dynamic_circadian_theme/index.yaml` to the fork.
+5. Open a PR.

@@ -57,6 +57,26 @@ test('buildDailyDrift is stable for a date/timezone and changes across days', ()
   assert.ok(Math.abs(a.accentBias) <= 7);
 });
 
+test('buildDailyDrift catch-up loop evolves state over missed days', () => {
+  // Simulate genesis on day 1
+  const genesis = buildDailyDrift('2026-07-01', 'America/New_York');
+  // Jump forward 5 days in one call (simulating a week-long vacation)
+  const afterVacation = buildDailyDrift('2026-07-06', 'America/New_York');
+  // The state must have evolved, not snapped back to zero or stayed static
+  assert.notDeepEqual(genesis, afterVacation);
+  // Bounds must still hold even after accumulated drift + catch-up noise
+  for (const key of Object.keys(genesis)) {
+    const bounds = {
+      surfaceHue: 14, surfaceSaturation: 0.075, surfaceLightness: 0.05,
+      frameHue: 14, frameSaturation: 0.075, frameLightness: 0.05,
+      windowHue: 14, windowSaturation: 0.075, windowLightness: 0.05,
+      accentHue: 28, accentSaturation: 0.15, accentLightness: 0.07,
+      accentBias: 14,
+    };
+    assert.ok(Math.abs(afterVacation[key]) <= bounds[key], `${key} exceeded catch-up bound`);
+  }
+});
+
 test('interpolatePalette returns complete bounded CSS hex palette', () => {
   const drift = { hue: 3, saturation: 0.01, lightness: -0.01 };
   const palette = interpolatePalette(DEFAULT_PHASES, 7 * 60 + 30, drift);
