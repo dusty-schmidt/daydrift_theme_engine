@@ -1,4 +1,4 @@
-name: dynamic_circadian_theme
+name: daydrift_theme_engine
 title: Daydrift Theme Engine
 description: A zero-configuration Agent Zero WebUI theme that follows local time with smooth circadian color drift and unique, per-user daily variation.
 version: 0.1.9

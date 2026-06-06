@@ -9,7 +9,7 @@ import {
 
 const CSS_ID = 'dynamic-circadian-theme-css';
 const UPDATE_MS = 30_000;
-const PREVIOUS_DARK_MODE_KEY = 'dynamicCircadianTheme.previousDarkMode';
+const PREVIOUS_DARK_MODE_KEY = 'daydriftTheme.previousDarkMode';
 const PREVIEW_UPDATE_MS = 250;
 let intervalId = null;
 let previewIntervalId = null;
@@ -17,7 +17,7 @@ let observer = null;
 let lastTimezone = null;
 let lastLocalDate = null;
 
-export default function initDynamicCircadianTheme(pluginBaseUrl = window.__dynamicCircadianThemePluginBaseUrl || '/plugins/dynamic_circadian_theme/') {
+export default function initDaydriftTheme(pluginBaseUrl = window.__daydriftThemePluginBaseUrl || '/plugins/daydrift_theme_engine/') {
   injectStyles(pluginBaseUrl);
   forceThemeOwnerMode();
   startThemeLoop();
@@ -93,8 +93,8 @@ function applyPalette(state, previewActive = false) {
     preview: previewController,
     updatedAt: new Date().toISOString(),
   };
-  window.DynamicCircadianTheme = Object.freeze(
-    window.__dynamicCircadianThemeDebug === true ? { ...state, previewActive, preview: previewController, updatedAt: diagnostic.updatedAt } : diagnostic
+  window.DaydriftTheme = Object.freeze(
+    window.__daydriftThemeDebug === true ? { ...state, previewActive, preview: previewController, updatedAt: diagnostic.updatedAt } : diagnostic
   );
 }
 
@@ -130,7 +130,7 @@ function startPreview(durationMs = 60_000) {
 
   apply();
   previewIntervalId = window.setInterval(apply, PREVIEW_UPDATE_MS);
-  return `Dynamic Circadian Theme preview started: 24h cycle compressed into ${Math.round(totalDuration / 1000)}s. Run window.DynamicCircadianTheme.preview.stop() to return to live time.`;
+  return `Daydrift Theme Engine preview started: 24h cycle compressed into ${Math.round(totalDuration / 1000)}s. Run window.DaydriftTheme.preview.stop() to return to live time.`;
 }
 
 function stopPreview(returnToLiveTime = true) {

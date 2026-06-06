@@ -223,16 +223,16 @@ export function buildDailyDrift(localDate, timezone = 'local') {
   // Ensure unique daily drift per user by generating a persistent random ID on first load
   let userId = 'default';
   try {
-    userId = localStorage.getItem('dynamicCircadianTheme.userId');
+    userId = localStorage.getItem('daydriftTheme.userId');
     if (!userId) {
       userId = Math.random().toString(16).substring(2, 10);
-      localStorage.setItem('dynamicCircadianTheme.userId', userId);
+      localStorage.setItem('daydriftTheme.userId', userId);
     }
   } catch {
     // Fallback for restricted environments (e.g., strict privacy modes)
   }
 
-  const seed = xmur3(`${timezone}|${localDate}|${userId}|dynamic_circadian_theme`)();
+  const seed = xmur3(`${timezone}|${localDate}|${userId}|daydrift_theme_engine`)();
   const random = mulberry32(seed);
   return {
     // Keep overall surfaces stable so day/night still reads clearly.

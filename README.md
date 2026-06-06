@@ -75,7 +75,7 @@ palette(
 Copy this repository root into your Agent Zero user plugins directory:
 
 ```bash
-cp -R dynamic_circadian_theme /a0/usr/plugins/dynamic_circadian_theme
+cp -R daydrift_theme_engine /a0/usr/plugins/daydrift_theme_engine
 ```
 
 Then refresh Agent Zero or toggle the plugin from the Plugins UI.
@@ -87,20 +87,20 @@ Then refresh Agent Zero or toggle the plugin from the Plugins UI.
 After reloading Agent Zero with the plugin active, open the browser developer console and run:
 
 ```js
-window.DynamicCircadianTheme.preview.start()
+window.DaydriftTheme.preview.start()
 ```
 
 By default this compresses a full 24-hour circadian color cycle into 60 seconds. You can choose a different duration in milliseconds:
 
 ```js
-window.DynamicCircadianTheme.preview.start(30000) // 30-second full-day preview
-window.DynamicCircadianTheme.preview.start(120000) // 2-minute full-day preview
+window.DaydriftTheme.preview.start(30000) // 30-second full-day preview
+window.DaydriftTheme.preview.start(120000) // 2-minute full-day preview
 ```
 
 Stop preview mode and return to live local time with:
 
 ```js
-window.DynamicCircadianTheme.preview.stop()
+window.DaydriftTheme.preview.stop()
 ```
 
 While preview is running, a small **Circadian preview** badge appears in the lower-right corner of the WebUI.
@@ -118,13 +118,13 @@ python3 scripts/validate_plugin.py
 ```
 
 ### Debugging
-At runtime, the plugin exposes a read-only diagnostic object at `window.DynamicCircadianTheme`. By default it contains the current phase, palette, and last update timestamp. For full diagnostics, set `window.__dynamicCircadianThemeDebug = true` before initialization (treat as same-origin debug metadata).
+At runtime, the plugin exposes a read-only diagnostic object at `window.DaydriftTheme`. By default it contains the current phase, palette, and last update timestamp. For full diagnostics, set `window.__daydriftThemeDebug = true` before initialization (treat as same-origin debug metadata).
 
 ---
 
 ## Removal
 
-Disable or delete the plugin folder. It does not edit Agent Zero core files, does not call external services, and does not store secrets. While active it intentionally owns the UI theme mode and writes `localStorage.darkMode = 'true'`. If dark mode remains enabled after removal, open Preferences and reset **Dark mode**, or clear the browser entries `darkMode` and `dynamicCircadianTheme.previousDarkMode` for the Agent Zero WebUI origin.
+Disable or delete the plugin folder. It does not edit Agent Zero core files, does not call external services, and does not store secrets. While active it intentionally owns the UI theme mode and writes `localStorage.darkMode = 'true'`. If dark mode remains enabled after removal, open Preferences and reset **Dark mode**, or clear the browser entries `darkMode` and `daydriftTheme.previousDarkMode` for the Agent Zero WebUI origin.
 
 ---
 
@@ -140,5 +140,5 @@ This repository is structured with plugin contents at the repository root. Befor
 2. Update `index.yaml` so `github:` points to the real repository URL. The checked-in value is intentionally a placeholder until you provide your GitHub owner/repo.
 3. Run strict community validation: `python3 scripts/validate_plugin.py --strict-index`.
 4. Fork `https://github.com/agent0ai/a0-plugins`.
-5. Add `plugins/dynamic_circadian_theme/index.yaml` to the fork.
+5. Add `plugins/daydrift_theme_engine/index.yaml` to the fork.
 6. Open a PR.
