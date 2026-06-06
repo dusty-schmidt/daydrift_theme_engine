@@ -57,26 +57,6 @@ test('buildDailyDrift is stable for a date/timezone and changes across days', ()
   assert.ok(Math.abs(a.accentBias) <= 7);
 });
 
-test('buildDailyDrift catch-up loop evolves state over missed days', () => {
-  // Simulate genesis on day 1
-  const genesis = buildDailyDrift('2026-07-01', 'America/New_York');
-  // Jump forward 5 days in one call (simulating a week-long vacation)
-  const afterVacation = buildDailyDrift('2026-07-06', 'America/New_York');
-  // The state must have evolved, not snapped back to zero or stayed static
-  assert.notDeepEqual(genesis, afterVacation);
-  // Bounds must still hold even after accumulated drift + catch-up noise
-  for (const key of Object.keys(genesis)) {
-    const bounds = {
-      surfaceHue: 14, surfaceSaturation: 0.075, surfaceLightness: 0.05,
-      frameHue: 14, frameSaturation: 0.075, frameLightness: 0.05,
-      windowHue: 14, windowSaturation: 0.075, windowLightness: 0.05,
-      accentHue: 28, accentSaturation: 0.15, accentLightness: 0.07,
-      accentBias: 14,
-    };
-    assert.ok(Math.abs(afterVacation[key]) <= bounds[key], `${key} exceeded catch-up bound`);
-  }
-});
-
 test('interpolatePalette returns complete bounded CSS hex palette', () => {
   const drift = { hue: 3, saturation: 0.01, lightness: -0.01 };
   const palette = interpolatePalette(DEFAULT_PHASES, 7 * 60 + 30, drift);
@@ -156,9 +136,16 @@ test('daily drift changes accents more than stable surfaces', () => {
     windowHue: -2.6,
     windowSaturation: -0.015,
     windowLightness: 0.014,
-    accentHue: 12,
-    accentSaturation: 0.06,
-    accentLightness: 0.03,
+    // Multi-channel accent drift: three sub-channels feed accent/primary/highlight
+    accentLinkHue: 12,
+    accentLinkSaturation: 0.06,
+    accentLinkLightness: 0.03,
+    accentFillHue: 9,
+    accentFillSaturation: 0.05,
+    accentFillLightness: 0.025,
+    accentGlowHue: 7,
+    accentGlowSaturation: 0.07,
+    accentGlowLightness: 0.035,
     accentBias: 5,
   });
   assert.notEqual(drifted.accent, base.accent);
@@ -166,6 +153,38 @@ test('daily drift changes accents more than stable surfaces', () => {
   assert.notEqual(drifted.primary, base.primary);
   assert.notEqual(drifted.background, base.background);
   assert.notEqual(drifted.chatBackground, base.chatBackground);
+});
+
+
+test('multi-channel accent drift: sub-channels evolve independently', () => {
+  // Verify the three accent sub-channels (accentLink, accentFill, accentGlow)
+  // can drift apart from each other. The whole point of the multi-channel split
+  // is that 'accent' (links), 'primary' (fills), and 'highlight' (glows) can
+  // wander into different color spaces on the same day.
+  const driftA = {
+    accentLinkHue: 14, accentLinkSaturation: 0.07, accentLinkLightness: 0.03,
+    accentFillHue: -11, accentFillSaturation: -0.06, accentFillLightness: -0.025,
+    accentGlowHue: 0, accentGlowSaturation: 0, accentGlowLightness: 0,
+    accentBias: 0,
+  };
+  const driftB = {
+    accentLinkHue: 0, accentLinkSaturation: 0, accentLinkLightness: 0,
+    accentFillHue: 11, accentFillSaturation: 0.06, accentFillLightness: 0.025,
+    accentGlowHue: -9, accentGlowSaturation: -0.08, accentGlowLightness: -0.04,
+    accentBias: 0,
+  };
+  const paletteA = interpolatePalette(DEFAULT_PHASES, 720, driftA);
+  const paletteB = interpolatePalette(DEFAULT_PHASES, 720, driftB);
+  // The 'accent' key in A should differ from B (link channel flipped polarity).
+  assert.notEqual(paletteA.accent, paletteB.accent, 'accent (link channel) should drift independently');
+  // The 'primary' key in A should differ from B (fill channel flipped polarity).
+  assert.notEqual(paletteA.primary, paletteB.primary, 'primary (fill channel) should drift independently');
+  // The 'highlight' key in A should differ from B (glow channel flipped polarity).
+  assert.notEqual(paletteA.highlight, paletteB.highlight, 'highlight (glow channel) should drift independently');
+  // Most importantly: the three accent-family keys in A should NOT all be the same.
+  // (Proves the sub-channels are independently wired, not collapsed back into one.)
+  assert.notEqual(paletteA.accent, paletteA.primary, 'accent and primary should diverge when sub-channels diverge');
+  assert.notEqual(paletteA.primary, paletteA.highlight, 'primary and highlight should diverge when sub-channels diverge');
 });
 
 

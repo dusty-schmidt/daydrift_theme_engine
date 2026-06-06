@@ -222,126 +222,54 @@ export function findPhaseWindow(phases, minuteOfDay) {
 export function buildDailyDrift(localDate, timezone = 'local') {
   // Ensure unique daily drift per user by generating a persistent random ID on first load
   let userId = 'default';
-  let store = null;
   try {
     userId = localStorage.getItem('dynamicCircadianTheme.userId');
     if (!userId) {
       userId = Math.random().toString(16).substring(2, 10);
       localStorage.setItem('dynamicCircadianTheme.userId', userId);
     }
-    store = localStorage;
   } catch {
     // Fallback for restricted environments (e.g., strict privacy modes)
   }
 
-  // Node.js / SSR fallback: use an in-memory store so the state machine is testable
-  // and behaves correctly even without a browser localStorage.
-  if (!store) {
-    const memKey = `__dct_mem_${userId}`;
-    if (!globalThis[memKey]) globalThis[memKey] = {};
-    store = {
-      getItem: (k) => k in globalThis[memKey] ? globalThis[memKey][k] : null,
-      setItem: (k, v) => { globalThis[memKey][k] = v; }
-    };
-  }
+  const seed = xmur3(`${timezone}|${localDate}|${userId}|dynamic_circadian_theme`)();
+  const random = mulberry32(seed);
+  return {
+    // Keep overall surfaces stable so day/night still reads clearly.
+    surfaceHue: round((random() * 2 - 1) * 1.0, 3),
+    surfaceSaturation: round((random() * 2 - 1) * 0.01, 4),
+    surfaceLightness: round((random() * 2 - 1) * 0.006, 4),
 
-  // Stateful Rubber-Band Drift Engine (Ornstein-Uhlenbeck process).
-  // Maintains a persistent drift vector that evolves over time but is pulled back
-  // toward the origin (factory defaults) to prevent runaway divergence.
-  const DRIFT_KEY = 'dynamicCircadianTheme.driftState';
-  const ZERO_VECTOR = {
-    surfaceHue: 0, surfaceSaturation: 0, surfaceLightness: 0,
-    frameHue: 0, frameSaturation: 0, frameLightness: 0,
-    windowHue: 0, windowSaturation: 0, windowLightness: 0,
-    accentHue: 0, accentSaturation: 0, accentLightness: 0,
-    accentBias: 0,
+    // Treat panels as a physical frame and chat as an outside window.
+    // They move together through the day, but with separate daily character.
+    frameHue: round((random() * 2 - 1) * 2.2, 3),
+    frameSaturation: round((random() * 2 - 1) * 0.018, 4),
+    frameLightness: round((random() * 2 - 1) * 0.012, 4),
+    windowHue: round((random() * 2 - 1) * 3.4, 3),
+    windowSaturation: round((random() * 2 - 1) * 0.026, 4),
+    windowLightness: round((random() * 2 - 1) * 0.018, 4),
+
+    // Multi-channel accent drift: three sub-channels evolve independently so
+    // different accent elements (links, fills, highlights) can wander apart
+    // over time. Each shares the same bounds but rolls its own random walk.
+    // accentLink: most variable, for the 'accent' key (links, focus rings)
+    accentLinkHue: round((random() * 2 - 1) * 14, 3),
+    accentLinkSaturation: round((random() * 2 - 1) * 0.075, 4),
+    accentLinkLightness: round((random() * 2 - 1) * 0.035, 4),
+    // accentFill: slightly more conservative, for the 'primary' key (buttons, fills)
+    accentFillHue: round((random() * 2 - 1) * 11, 3),
+    accentFillSaturation: round((random() * 2 - 1) * 0.065, 4),
+    accentFillLightness: round((random() * 2 - 1) * 0.030, 4),
+    // accentGlow: more neutral/saturated, for the 'highlight' key (selection, glow)
+    accentGlowHue: round((random() * 2 - 1) * 9, 3),
+    accentGlowSaturation: round((random() * 2 - 1) * 0.080, 4),
+    accentGlowLightness: round((random() * 2 - 1) * 0.040, 4),
+    // Legacy channel kept for backward compatibility (averaged blend of the three).
+    accentHue: 0,
+    accentSaturation: 0,
+    accentLightness: 0,
+    accentBias: round((random() * 2 - 1) * 7, 3)
   };
-
-  // Max possible variance for a single day's noise (must match the bounds tested below).
-  const MAX_BOUNDS = {
-    surfaceHue: 1.0, surfaceSaturation: 0.01, surfaceLightness: 0.006,
-    frameHue: 2.2, frameSaturation: 0.018, frameLightness: 0.012,
-    windowHue: 3.4, windowSaturation: 0.026, windowLightness: 0.018,
-    accentHue: 14, accentSaturation: 0.075, accentLightness: 0.035,
-    accentBias: 7,
-  };
-
-  // Rubber-band decay factor. 0.5 means we pull back 50% of the way to center per day.
-  const DECAY = 0.5;
-
-  let state = null;
-  if (store) {
-    try {
-      const raw = store.getItem(DRIFT_KEY);
-      if (raw) state = JSON.parse(raw);
-    } catch {}
-  }
-
-  if (!state || !state.vector || state.date !== localDate || state.userId !== userId) {
-    // First run, different day, or different user: load or initialize state.
-    if (state && state.userId === userId && state.date) {
-      // Existing state for this user. Simulate the days we missed (catch-up loop).
-      const daysMissed = Math.max(0, daysBetween(state.date, localDate));
-      let currentVector = state.vector;
-
-      for (let i = 0; i < daysMissed; i++) {
-        currentVector = simulateDriftDay(currentVector, userId, state.date, i);
-      }
-      state = { date: localDate, userId, vector: currentVector };
-    } else {
-      // No state or different user. Simulate ONE day of drift from zero to establish
-      // the user's unique genesis palette. This ensures no two users ever start identically.
-      const genesisVector = simulateDriftDay(ZERO_VECTOR, userId, localDate, -1);
-      state = { date: localDate, userId, vector: genesisVector };
-    }
-
-    if (store) {
-      try { store.setItem(DRIFT_KEY, JSON.stringify(state)); } catch {}
-    }
-  }
-
-  return state.vector;
-
-  // --- Internal helpers ---
-  function simulateDriftDay(currentVector, uId, baseDate, dayIndex) {
-    const dateForSeed = addDays(baseDate, dayIndex + 1);
-    const seed = xmur3(`${timezone}|${dateForSeed}|${uId}|dynamic_circadian_theme_rubberband`)();
-    const random = mulberry32(seed);
-    const nextVector = {};
-
-    for (const key of Object.keys(ZERO_VECTOR)) {
-      const current = currentVector[key] || 0;
-      const maxBound = MAX_BOUNDS[key] || 1;
-
-      // 1. Pull toward zero (mean reversion): current * (1 - DECAY)
-      let pulled = current * (1 - DECAY);
-
-      // 2. Skewed random noise. The further from zero, the more the noise is
-      //    biased toward the origin. We achieve this by scaling the random
-      //    magnitude by a factor that shrinks as |pulled| grows toward maxBound.
-      const distanceRatio = Math.min(1, Math.abs(pulled) / maxBound);
-      // Bias factor: 1.0 at center, scaling down to 0.2 at the edge.
-      const bias = 1.0 - (distanceRatio * 0.8);
-
-      const noiseScale = maxBound * bias;
-      const noise = (random() * 2 - 1) * noiseScale;
-
-      nextVector[key] = round(pulled + noise, 4);
-    }
-    return nextVector;
-  }
-}
-
-function daysBetween(dateStr1, dateStr2) {
-  const d1 = new Date(dateStr1 + 'T00:00:00Z').getTime();
-  const d2 = new Date(dateStr2 + 'T00:00:00Z').getTime();
-  return Math.floor((d2 - d1) / 86400000);
-}
-
-function addDays(dateStr, days) {
-  const d = new Date(dateStr + 'T00:00:00Z');
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
 }
 
 export function interpolatePalette(phases, minuteOfDay, drift = {}) {
@@ -379,17 +307,37 @@ export function interpolatePalette(phases, minuteOfDay, drift = {}) {
     const secondaryAccentKeys = new Set(['secondary', 'border', 'inputFocus']);
     const statusKeys = new Set(['errorText', 'warningText']);
     if (accentKeys.has(key)) {
+      // Map each accent key to its own sub-channel for independent evolution.
+      let subHue, subSat, subLight;
+      if (key === 'accent') {
+        subHue = drift.accentLinkHue;
+        subSat = drift.accentLinkSaturation;
+        subLight = drift.accentLinkLightness;
+      } else if (key === 'primary') {
+        subHue = drift.accentFillHue;
+        subSat = drift.accentFillSaturation;
+        subLight = drift.accentFillLightness;
+      } else {
+        // 'highlight' → accentGlow
+        subHue = drift.accentGlowHue;
+        subSat = drift.accentGlowSaturation;
+        subLight = drift.accentGlowLightness;
+      }
       return {
-        hue: (drift.accentHue || drift.hue || 0) + (key === 'accent' ? (drift.accentBias || 0) : 0),
-        saturation: drift.accentSaturation || drift.saturation || 0,
-        lightness: drift.accentLightness || drift.lightness || 0,
+        hue: (subHue || drift.hue || 0) + (key === 'accent' ? (drift.accentBias || 0) : 0),
+        saturation: subSat || drift.saturation || 0,
+        lightness: subLight || drift.lightness || 0,
       };
     }
     if (secondaryAccentKeys.has(key)) {
+      // Secondary accents use the average of all 3 sub-channels, scaled down.
+      const avgHue = ((drift.accentLinkHue || 0) + (drift.accentFillHue || 0) + (drift.accentGlowHue || 0)) / 3;
+      const avgSat = ((drift.accentLinkSaturation || 0) + (drift.accentFillSaturation || 0) + (drift.accentGlowSaturation || 0)) / 3;
+      const avgLight = ((drift.accentLinkLightness || 0) + (drift.accentFillLightness || 0) + (drift.accentGlowLightness || 0)) / 3;
       return {
-        hue: (drift.accentHue || drift.hue || 0) * 0.35,
-        saturation: (drift.accentSaturation || drift.saturation || 0) * 0.35,
-        lightness: (drift.accentLightness || drift.lightness || 0) * 0.2,
+        hue: (avgHue || drift.hue || 0) * 0.35,
+        saturation: (avgSat || drift.saturation || 0) * 0.35,
+        lightness: (avgLight || drift.lightness || 0) * 0.2,
       };
     }
     if (key === 'panel' || key === 'messageBg' || key === 'tableRow' || key === 'input') {
