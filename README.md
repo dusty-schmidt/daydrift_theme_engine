@@ -4,11 +4,14 @@ A zero-configuration Agent Zero WebUI theme that follows your local browser time
 
 ## What it does
 
-- **Circadian Palette:** Transitions continuously through 13 phases: midnight, deep night, predawn, dawn, sunrise, morning, late morning, solar noon, afternoon, golden hour, dusk, evening, and late evening.
+- **Circadian Palette:** Transitions continuously through 12 equal-length phases: midnight, deep night, predawn, dawn, sunrise, morning, late morning, solar noon, afternoon, golden hour, dusk, and late evening.
 - **Daily Drift:** Adds subtle, deterministic color variation so no two local days are exactly alike, while keeping the palette stable during a single day.
-- **WCAG Contrast Guarantee:** The engine **automatically enforces** contrast ratios. Accents, borders, and secondary colors are dynamically adjusted to guarantee readability on both dark panels and light daytime chat backgrounds. You only need to pick colors that look good aesthetically.
-- **Zero-Friction:** Requires no user configuration and exposes no settings panel. Hides the default **Dark mode** toggle in Preferences while active.
-- **Non-Destructive:** Uses Agent Zero CSS variables instead of editing core WebUI files.
+- **Full Color Wheel Accents:** Accent colors (links, buttons, highlights) are no longer locked to blue/purple tones. Each day picks a random base hue from the full 360-degree color wheel, with three independent sub-channels (links, fills, highlights) that diverge slightly for visual variety while staying in the same daily color family.
+- **Nighttime Accent Glow:** Accent elements become more vibrant at night — saturation and lightness boost on a sine wave peaking at midnight. CSS glow effects (box-shadows) activate during night phases.
+- **Neutral Panel Design:** Sidebar panels are neutral greys during daytime and deep blue-blacks at night. Chat backgrounds get pale tints (sky blue, pale green, warm) during the day.
+- **WCAG Contrast Guarantee:** The engine **automatically enforces** contrast ratios. Accents, borders, and secondary colors are dynamically adjusted to guarantee readability on both dark panels and light daytime chat backgrounds.
+- **Settings Panel:** Timezone override dropdown (grouped by region), brightness slider (darken day phases or brighten night phases), and a one-click 30-second full-cycle preview button.
+- **Non-Destructive:** Uses Agent Zero CSS variables instead of editing core WebUI files. Hides the default **Dark mode** toggle in Preferences while active.
 
 ---
 
@@ -44,7 +47,7 @@ palette(
 ### Step-by-Step Customization
 1. **Identify the zone** you want to change (see UI Map below).
 2. **Open** `webui/circadian-engine.mjs` and find the `DEFAULT_PHASES` array.
-3. **Locate the phase** you want to modify (e.g., `phase('morning', 450, palette(...))`).
+3. **Locate the phase** you want to modify (e.g., `phase('morning', 600, palette(...))`).
 4. **Change the hex code** for the corresponding argument.
 5. **Save and refresh** the WebUI. The engine will automatically recalculate dependent tokens (like `--color-border` and `--color-secondary`) to guarantee readability.
 
@@ -82,19 +85,21 @@ Then refresh Agent Zero or toggle the plugin from the Plugins UI.
 
 ---
 
+## Settings Panel
+
+Open the plugin settings panel from the Plugins menu. It provides:
+
+- **Timezone override dropdown** — select an IANA timezone (grouped by region) to preview what the theme looks like at that location's local time. Leave as `auto` to use your browser's detected timezone.
+- **Brightness slider** — darken daytime phases or brighten nighttime phases. Range 0 (darkest) to 1 (lightest), default 0.5.
+- **Preview 24h Cycle button** — one-click 30-second full circadian cycle. Runs once and stops automatically. Close the settings menu to watch the chat transform.
+
 ## Preview a Full Day Cycle
 
-After reloading Agent Zero with the plugin active, open the browser developer console and run:
+Click the **Start 30s Preview** button in the settings panel, or use the console:
 
 ```js
-window.DaydriftTheme.preview.start()
-```
-
-By default this compresses a full 24-hour circadian color cycle into 60 seconds. You can choose a different duration in milliseconds:
-
-```js
-window.DaydriftTheme.preview.start(30000) // 30-second full-day preview
-window.DaydriftTheme.preview.start(120000) // 2-minute full-day preview
+window.DaydriftTheme.preview.start(30000, true)   // 30s full-day preview, auto-stop
+window.DaydriftTheme.preview.start(60000)          // 60s preview, continuous loop
 ```
 
 Stop preview mode and return to live local time with:
@@ -103,7 +108,7 @@ Stop preview mode and return to live local time with:
 window.DaydriftTheme.preview.stop()
 ```
 
-While preview is running, a small **Circadian preview** badge appears in the lower-right corner of the WebUI.
+While preview is running, a small **Circadian preview** badge appears in the lower-right corner of the WebUI showing the current phase and completion percentage.
 
 ---
 
@@ -112,9 +117,6 @@ While preview is running, a small **Circadian preview** badge appears in the low
 ```bash
 # Run unit and runtime tests
 node --test tests/*.test.mjs
-
-# Validate plugin structure (if preparing for community index)
-python3 scripts/validate_plugin.py
 ```
 
 ### Debugging
@@ -138,7 +140,7 @@ This repository is structured with plugin contents at the repository root. Befor
 
 1. Push this repository to GitHub.
 2. Update `index.yaml` so `github:` points to the real repository URL. The checked-in value is intentionally a placeholder until you provide your GitHub owner/repo.
-3. Run strict community validation: `python3 scripts/validate_plugin.py --strict-index`.
+3. As a minimum check, run the tests: `node --test tests/*.test.mjs`.
 4. Fork `https://github.com/agent0ai/a0-plugins`.
 5. Add `plugins/daydrift_theme_engine/index.yaml` to the fork.
 6. Open a PR.

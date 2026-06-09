@@ -14,19 +14,18 @@ export const DERIVED_KEYS = [
 ];
 
 export const DEFAULT_PHASES = [
-  phase('midnight', 0, palette('#060913', '#e9efff', '#9aa8c7', '#8fa3d6', '#151b2b', '#6f86ff', '#101624', '#415ad9', '#edf3ff', '#0b101c', '#26324f', '#080d18', '#11192a', '#0b111e', '#121a2a', '#ff6b7a', '#d7a85f')),
-  phase('deep_night', 120, palette('#030610', '#dce8ff', '#8797b8', '#6f83b8', '#10182a', '#536cf0', '#0b1120', '#344ac5', '#e7efff', '#070b15', '#202b46', '#050914', '#0c1220', '#080d18', '#0e1524', '#ff6275', '#c99c59')),
-  phase('predawn', 270, palette('#071021', '#e7f1ff', '#91a8c4', '#78a4c8', '#16263a', '#3c91d0', '#0f1c2e', '#2f7fbb', '#edf6ff', '#0b1726', '#28445e', '#081322', '#102033', '#0d1a2b', '#132236', '#f36b78', '#cba15d')),
-  phase('dawn', 330, palette('#171321', '#fff0ea', '#c9aeba', '#c9989d', '#2c2435', '#ff7f72', '#211b2b', '#d96475', '#fff5f0', '#1a1524', '#4a3a54', '#120f1b', '#211a2b', '#1d1725', '#282033', '#f26b78', '#d7a064')),
-  phase('sunrise', 390, palette('#1e242a', '#e8edf3', '#8a97a5', '#6090a8', '#2c3a46', '#75a8bc', '#26303a', '#4d8298', '#e8edf3', '#232c35', '#3c4a56', '#1e242a', '#2c3a46', '#a8b8c8', '#303b46', '#d46060', '#d4a060')),
-  phase('morning', 450, palette('#202c2d', '#f8fdff', '#b8cbd3', '#83bdd0', '#34494e', '#65c4d8', '#253a40', '#4ba8c2', '#f8fdff', '#263235', '#4c6770', '#1d2d31', '#2a4248', '#b5c4d1', '#33474c', '#dc686a', '#d2aa50')),
-  phase('late_morning', 570, palette('#2b332e', '#fdfff9', '#c4cec4', '#93bda9', '#3f4c43', '#7dc69e', '#324038', '#5aa97a', '#fdfff9', '#30372f', '#5b695d', '#263028', '#35443a', '#bccad6', '#3f4c43', '#d96862', '#d0ad50')),
-  phase('solar_noon', 720, palette('#36372b', '#fffff5', '#d4d0b5', '#c1ba80', '#4e4e3b', '#e2c85a', '#3d3e32', '#c4ad3f', '#fffff7', '#3b3a2f', '#6d6a4c', '#2f3025', '#444638', '#c2ced8', '#4a4a39', '#d7635d', '#d9aa3f')),
-  phase('afternoon', 840, palette('#343126', '#fffaf0', '#d2c4a4', '#c8aa70', '#504736', '#dba85c', '#3f382b', '#bd8d3d', '#fffaf2', '#456b8a', '#6f5f45', '#2d271d', '#453a2b', '#b5c4d1', '#4c4332', '#dc665e', '#d9a148')),
-  phase('golden_hour', 1020, palette('#1e2d3a', '#f0f6ff', '#9ab8cc', '#7aafc8', '#2d4a5e', '#5b9fc0', '#253848', '#4a8fb0', '#edf6ff', '#3d5f78', '#507d96', '#1e2d3a', '#2d4a5e', '#a8b8c8', '#304d62', '#e46a60', '#d4a849')),
-  phase('dusk', 1110, palette('#191423', '#f4edff', '#b9adc9', '#a691c4', '#312943', '#c67bc6', '#241d31', '#9d65b0', '#fbf2ff', '#1d1728', '#514062', '#15111d', '#261e32', '#211a2c', '#2f263c', '#f06a7a', '#d2a15f')),
-  phase('evening', 1200, palette('#0e1422', '#edf4ff', '#a8b9d0', '#889fca', '#212d45', '#6d8bff', '#172033', '#526cd8', '#f1f6ff', '#111827', '#354862', '#0c1220', '#172236', '#141d2e', '#1e293d', '#ff6879', '#d7a85e')),
-  phase('late_evening', 1320, palette('#090d18', '#e8eef9', '#9ba9bf', '#7888ac', '#1b2234', '#636fe8', '#121827', '#4555bd', '#edf2ff', '#0d1320', '#30394f', '#080c16', '#121827', '#0f1522', '#171d2b', '#ff6475', '#d6a663'))
+  phase('midnight', 0, palette('#09090b', '#e4e4e7', '#a1a2aa', '#8c47d1', '#7339ac', '#8c30e8', '#0c0d12', '#994ce6', '#e4e4e7', '#0c0d12', '#181a25', '#0c0d12', '#1b1d32', '#14141a', '#0c0d12', '#ff6b7a', '#d7a85f')),
+  phase('deep_night', 120, palette('#09090b', '#e4e4e7', '#a1a2aa', '#8c47d1', '#7339ac', '#8c30e8', '#0c0d12', '#994ce6', '#e4e4e7', '#0c0d12', '#181a25', '#0c0d12', '#1b1d32', '#14141a', '#0c0d12', '#ff6b7a', '#d7a85f')),
+  phase('predawn', 240, palette('#09090b', '#e4e4e7', '#a1a2aa', '#8c47d1', '#7339ac', '#8c30e8', '#0c0d12', '#994ce6', '#e4e4e7', '#0c0d12', '#181a25', '#0c0d12', '#1b1d32', '#14141a', '#0c0d12', '#ff6b7a', '#d7a85f')),
+  phase('dawn', 360, palette('#17181c', '#e4e5e7', '#999ba3', '#8040bf', '#663d8f', '#7a3db8', '#2e3038', '#8541c8', '#e4e5e7', '#2e3038', '#303241', '#2e3038', '#33374d', '#22242c', '#2e3038', '#ff6b7a', '#d7a85f')),
+  phase('sunrise', 480, palette('#22242a', '#dfdfe2', '#94969e', '#733fa6', '#613f83', '#6e3c9f', '#3d3e43', '#7a3db8', '#dfdfe2', '#3d3e43', '#3e404c', '#3d3e43', '#414558', '#3e414c', '#3d3e43', '#ff6b7a', '#d7a85f')),
+  phase('morning', 600, palette('#686464', '#27292b', '#44494b', '#2e1547', '#331c4a', '#2e1547', '#726e6e', '#361556', '#27292b', '#686464', '#a1a7aa', '#979a9b', '#a4aaa1', '#e0e2e6', '#979a9b', '#686464', '#d7a85f')),
+  phase('late_morning', 720, palette('#686464', '#282b27', '#464b44', '#2e1547', '#331c4a', '#2e1547', '#726e6e', '#361556', '#282b27', '#686464', '#a4aaa1', '#989b97', '#a7aaa4', '#e5e7eb', '#989b97', '#686464', '#d7a85f')),
+  phase('solar_noon', 840, palette('#686464', '#2b2927', '#4b4944', '#2e1547', '#331c4a', '#2e1547', '#726e6e', '#361556', '#2b2927', '#686464', '#aaa7a1', '#9b9a97', '#ada9a4', '#e7e9ec', '#9b9a97', '#686464', '#d7a85f')),
+  phase('afternoon', 960, palette('#686464', '#2b2927', '#4b4844', '#2e1547', '#331c4a', '#2e1547', '#726e6e', '#361556', '#2b2927', '#686464', '#aaa6a1', '#9b9997', '#ada8a4', '#e2e4e8', '#9b9997', '#686464', '#d7a85f')),
+  phase('golden_hour', 1080, palette('#32343a', '#dcdce0', '#92949c', '#5a298c', '#4c2d70', '#572291', '#3e4046', '#602ca3', '#dcdce0', '#32343a', '#52545c', '#32343a', '#444650', '#6b6e7a', '#32343a', '#ff6b7a', '#d7a85f')),
+  phase('dusk', 1200, palette('#131218', '#e6e4e7', '#99949e', '#8039c6', '#663894', '#7a31c4', '#26252e', '#853bce', '#e6e4e7', '#201f26', '#2b2a33', '#201f26', '#2c2a38', '#332640', '#201f26', '#ff6b7a', '#d7a85f')),
+  phase('late_evening', 1320, palette('#0b0b0e', '#e7e7e9', '#a1a2aa', '#853bce', '#6b36a1', '#8529e0', '#0e0f15', '#8c3cdd', '#e7e7e9', '#0e0f15', '#14151f', '#0e0f15', '#171826', '#14151f', '#0e0f15', '#ff6b7a', '#d7a85f'))
 ];
 
 function palette(background, text, textMuted, primary, secondary, accent, messageBg, highlight, messageText, panel, border, input, inputFocus, chatBackground, tableRow, errorText, warningText) {
@@ -78,10 +77,10 @@ function enforceReadableText(result) {
   result.secondary = ensureContrast(result.secondary, result.panel, 2.5);
 
   // Error/warning text: prioritize CHAT contrast (status messages in transcript).
-  result.errorText = ensureContrast(baseErrorText, result.chatBackground, 3.0);
+  result.errorText = ensureContrast(baseErrorText, result.chatBackground, 4.5);
   // Error on panel: separate token for panel surfaces.
-  result.errorPanel = ensureContrast(baseErrorText, result.panel, 3.0);
-  result.warningText = ensureContrast(result.warningText, result.chatBackground, 3.0);
+  result.errorPanel = ensureContrast(baseErrorText, result.panel, 4.5);
+  result.warningText = ensureContrast(result.warningText, result.chatBackground, 4.5);
 }
 
 function chooseSharedReadableText(backgrounds, preferred, minRatio) {
@@ -118,17 +117,24 @@ function ensureContrast(foreground, background, minRatio) {
   const fg = hexToHsl(foreground);
   const targetLight = bg.l <= 0.5;
   let best = foreground;
-  let bestRatio = contrastRatio(foreground, background);
+  let minDiff = Infinity;
+  let found = false;
   for (let i = 0; i <= 100; i += 1) {
-    const l = targetLight ? i / 100 : 1 - i / 100;
+    const l = i / 100;
+    if (targetLight && l < bg.l) continue;
+    if (!targetLight && l > bg.l) continue;
     const candidate = hslToHex(fg.h, fg.s, l);
     const ratio = contrastRatio(candidate, background);
-    if (ratio > bestRatio) {
-      best = candidate;
-      bestRatio = ratio;
+    if (ratio >= minRatio) {
+      const diff = Math.abs(l - fg.l);
+      if (diff < minDiff) {
+        minDiff = diff;
+        best = candidate;
+        found = true;
+      }
     }
-    if (ratio >= minRatio) return candidate;
   }
+  if (found) return best;
   return bg.l > 0.5 ? '#000000' : '#ffffff';
 }
 
@@ -174,6 +180,13 @@ function relativeLuminance(hex) {
     return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
   return 0.2126 * lr + 0.7152 * lg + 0.0722 * lb;
+}
+
+function getBrightnessSetting() {
+  try {
+    const val = localStorage.getItem('daydriftTheme.brightness');
+    return val !== null ? parseFloat(val) : 0.5;
+  } catch { return 0.5; }
 }
 
 function ensureFrameWindowSeparation(result) {
@@ -249,6 +262,9 @@ export function buildDailyDrift(localDate, timezone = 'local') {
     windowSaturation: round((random() * 2 - 1) * 0.026, 4),
     windowLightness: round((random() * 2 - 1) * 0.018, 4),
 
+    // Full color wheel daily anchor — accent sub-channels offset from this base.
+    accentBaseHue: round(random() * 360, 1),
+
     // Multi-channel accent drift: three sub-channels evolve independently so
     // different accent elements (links, fills, highlights) can wander apart
     // over time. Each shares the same bounds but rolls its own random walk.
@@ -276,30 +292,72 @@ export function interpolatePalette(phases, minuteOfDay, drift = {}) {
   const { current, next, t } = findPhaseWindow(phases, minuteOfDay);
   const eased = smoothstep(t);
   const result = {};
+
+  // Cosine wave for dynamic midday desaturation: 0 at midnight (0), 1 at noon (720)
+  const rad = (minuteOfDay / 1440) * 2 * Math.PI;
+  const dayFactor = 0.5 - 0.5 * Math.cos(rad);
+
   for (const key of PALETTE_KEYS) {
     const a = hexToHsl(current.palette[key]);
     const b = hexToHsl(next.palette[key]);
     const profile = driftProfileForKey(key);
-    const h = mixHue(a.h, b.h, eased) + (profile.hue || 0);
-    const s = clamp01(lerp(a.s, b.s, eased) + (profile.saturation || 0));
-    const l = clamp01(lerp(a.l, b.l, eased) + (profile.lightness || 0));
+    const isAccentKey = (key === 'accent' || key === 'primary' || key === 'highlight');
+    
+    let h = (isAccentKey && drift.accentBaseHue !== undefined) ? (profile.hue || 0) : (mixHue(a.h, b.h, eased) + (profile.hue || 0));
+    let s = clamp01(lerp(a.s, b.s, eased) + (profile.saturation || 0));
+    let l = clamp01(lerp(a.l, b.l, eased) + (profile.lightness || 0));
+
+    if (isAccentKey) {
+      // 1. Smoothly rotate the hue during the day (shifting up to 180 degrees at noon when dim)
+      h = (h + dayFactor * 180) % 360;
+      // 2. Dimmer effect: highly vibrant and bright at night, dim and desaturated during peak day
+      s = clamp01(s * (0.15 + 0.85 * (1.0 - dayFactor)));
+      l = clamp01(l * (0.50 + 0.50 * (1.0 - dayFactor)));
+    }
+
     result[key] = hslToHex(h, s, l);
   }
   ensureFrameWindowSeparation(result);
 
-  // Lighten panel surfaces so sidebars/bottom-panels/cards aren't near-black.
-  // This applies systematically across all phases — night phases stay dark but
-  // readable, day phases become comfortably light.
-  for (const key of ['panel', 'messageBg', 'tableRow', 'input']) {
+  // Brightness slider: clamp lightness range based on user preference.
+  // 0 = darkest (cap max lightness), 1 = lightest (raise min lightness).
+  const brightness = getBrightnessSetting();
+  const minL = 0.02 + brightness * 0.15;   // 0.02 → 0.17
+  const maxL = 0.65 + brightness * 0.30;   // 0.65 → 0.95
+  for (const key of ['panel', 'chatBackground', 'background', 'messageBg', 'tableRow', 'input']) {
     const c = hexToHsl(result[key]);
-    // Adaptive boost: full +0.06 for dark panels, scaling down as panel gets lighter.
-    // At L>0.25 the boost tapers to zero. Cap at 0.45 to keep frameText readable.
-    const boostScale = c.l < 0.25 ? 1.0 : Math.max(0, 1.0 - (c.l - 0.25) / 0.20);
-    c.l = Math.min(c.l + 0.06 * boostScale, 0.45);
+    c.l = clamp01(minL + (c.l - 0.02) * (maxL - minL) / (0.95 - 0.02));
     result[key] = hslToHex(c.h, c.s, c.l);
   }
 
   enforceReadableText(result);
+
+  // Generate dynamic, harmoniously shifting secondary colors derived from the main accent color
+  const acc = hexToHsl(result.accent);
+  const s_tool = hslToHex((acc.h + 60) % 360, acc.s, acc.l);
+  const s_codeExe = hslToHex((acc.h + 120) % 360, acc.s, acc.l);
+  const s_browser = hslToHex((acc.h + 180) % 360, acc.s, acc.l);
+  const s_util = hslToHex((acc.h + 240) % 360, acc.s, acc.l);
+  const s_agent = hslToHex((acc.h + 300) % 360, acc.s, acc.l);
+  const s_info = hslToHex((acc.h + 30) % 360, acc.s, acc.l);
+  
+  // Scale warning and error saturation/lightness in sync with the main accent dimmer wave
+  const warnHsl = hexToHsl(result.warningText || '#d7a85f');
+  const errHsl = hexToHsl(result.errorText || '#ff6b7a');
+  warnHsl.s = clamp01(warnHsl.s * (0.25 + 0.75 * (1.0 - dayFactor)));
+  warnHsl.l = clamp01(warnHsl.l * (0.50 + 0.50 * (1.0 - dayFactor)));
+  errHsl.s = clamp01(errHsl.s * (0.25 + 0.75 * (1.0 - dayFactor)));
+  errHsl.l = clamp01(errHsl.l * (0.50 + 0.50 * (1.0 - dayFactor)));
+
+  result.messageTool = s_tool;
+  result.messageCodeExe = s_codeExe;
+  result.messageBrowser = s_browser;
+  result.messageUtil = s_util;
+  result.messageAgent = s_agent;
+  result.messageInfo = s_info;
+  result.messageWarning = hslToHex(warnHsl.h, warnHsl.s, warnHsl.l);
+  result.messageError = hslToHex(errHsl.h, errHsl.s, errHsl.l);
+
   return result;
 
   function driftProfileForKey(key) {
@@ -307,27 +365,31 @@ export function interpolatePalette(phases, minuteOfDay, drift = {}) {
     const secondaryAccentKeys = new Set(['secondary', 'border', 'inputFocus']);
     const statusKeys = new Set(['errorText', 'warningText']);
     if (accentKeys.has(key)) {
-      // Map each accent key to its own sub-channel for independent evolution.
-      let subHue, subSat, subLight;
+      // Accent keys use accentBaseHue exclusively — the interpolated phase hue
+      // is completely ignored. Sub-channel offsets (with multipliers) provide
+      // separation while keeping all accent types in the same daily color family.
       if (key === 'accent') {
-        subHue = drift.accentLinkHue;
-        subSat = drift.accentLinkSaturation;
-        subLight = drift.accentLinkLightness;
+        // Links: full base hue + link sub-offset + accentBias
+        return {
+          hue: (drift.accentBaseHue || 0) + (drift.accentLinkHue || 0) * 0.3 + (drift.accentBias || 0),
+          saturation: (drift.accentLinkSaturation || 0) || drift.saturation || 0,
+          lightness: (drift.accentLinkLightness || 0) || drift.lightness || 0,
+        };
       } else if (key === 'primary') {
-        subHue = drift.accentFillHue;
-        subSat = drift.accentFillSaturation;
-        subLight = drift.accentFillLightness;
+        // Fills: base hue + fill sub-offset, more conservative
+        return {
+          hue: (drift.accentBaseHue || 0) + (drift.accentFillHue || 0) * 0.25,
+          saturation: (drift.accentFillSaturation || 0) || drift.saturation || 0,
+          lightness: (drift.accentFillLightness || 0) || drift.lightness || 0,
+        };
       } else {
-        // 'highlight' → accentGlow
-        subHue = drift.accentGlowHue;
-        subSat = drift.accentGlowSaturation;
-        subLight = drift.accentGlowLightness;
+        // 'highlight' → accentGlow: base hue + glow sub-offset, more neutral/saturated
+        return {
+          hue: (drift.accentBaseHue || 0) + (drift.accentGlowHue || 0) * 0.2,
+          saturation: (drift.accentGlowSaturation || 0) || drift.saturation || 0,
+          lightness: (drift.accentGlowLightness || 0) || drift.lightness || 0,
+        };
       }
-      return {
-        hue: (subHue || drift.hue || 0) + (key === 'accent' ? (drift.accentBias || 0) : 0),
-        saturation: subSat || drift.saturation || 0,
-        lightness: subLight || drift.lightness || 0,
-      };
     }
     if (secondaryAccentKeys.has(key)) {
       // Secondary accents use the average of all 3 sub-channels, scaled down.
@@ -380,6 +442,12 @@ export function makePaletteForDate(date = new Date(), timezone = browserTimezone
 }
 
 export function browserTimezone() {
+  // Check for user-configured override first (set via Settings panel)
+  try {
+    const override = localStorage.getItem('daydriftTheme.overrideTimezone');
+    if (override && override !== 'auto') return override;
+  } catch {}
+  // Fall back to browser's Intl API
   try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'local'; }
   catch { return 'local'; }
 }

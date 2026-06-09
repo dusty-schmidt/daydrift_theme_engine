@@ -20,8 +20,8 @@ test('clampMinuteOfDay wraps arbitrary minutes into one local day', () => {
 
 test('findPhaseWindow handles normal and midnight wrap-around windows', () => {
   const morning = findPhaseWindow(DEFAULT_PHASES, 8 * 60);
-  assert.equal(morning.current.name, 'morning');
-  assert.equal(morning.next.name, 'late_morning');
+  assert.equal(morning.current.name, 'sunrise');
+  assert.equal(morning.next.name, 'morning');
   assert.ok(morning.t >= 0 && morning.t <= 1);
 
   const afterMidnight = findPhaseWindow(DEFAULT_PHASES, 30);
@@ -66,11 +66,11 @@ test('interpolatePalette returns complete bounded CSS hex palette', () => {
 });
 
 test('makePaletteForDate combines browser timezone date with deterministic phase color', () => {
-  const date = new Date('2026-06-02T12:00:00-04:00');
+  const date = new Date('2026-06-02T14:00:00-04:00');
   const result = makePaletteForDate(date, 'America/New_York');
   assert.equal(result.timezone, 'America/New_York');
   assert.equal(result.localDate, '2026-06-02');
-  assert.equal(result.minuteOfDay, 12 * 60);
+  assert.equal(result.minuteOfDay, 14 * 60);
   assert.ok(result.phase.current.name.includes('noon'));
   assert.match(result.palette.background, /^#[0-9a-f]{6}$/i);
 });
@@ -137,6 +137,7 @@ test('daily drift changes accents more than stable surfaces', () => {
     windowSaturation: -0.015,
     windowLightness: 0.014,
     // Multi-channel accent drift: three sub-channels feed accent/primary/highlight
+    accentBaseHue: 0,
     accentLinkHue: 12,
     accentLinkSaturation: 0.06,
     accentLinkLightness: 0.03,
@@ -162,12 +163,14 @@ test('multi-channel accent drift: sub-channels evolve independently', () => {
   // is that 'accent' (links), 'primary' (fills), and 'highlight' (glows) can
   // wander into different color spaces on the same day.
   const driftA = {
+    accentBaseHue: 0,
     accentLinkHue: 14, accentLinkSaturation: 0.07, accentLinkLightness: 0.03,
     accentFillHue: -11, accentFillSaturation: -0.06, accentFillLightness: -0.025,
     accentGlowHue: 0, accentGlowSaturation: 0, accentGlowLightness: 0,
     accentBias: 0,
   };
   const driftB = {
+    accentBaseHue: 0,
     accentLinkHue: 0, accentLinkSaturation: 0, accentLinkLightness: 0,
     accentFillHue: 11, accentFillSaturation: 0.06, accentFillLightness: 0.025,
     accentGlowHue: -9, accentGlowSaturation: -0.08, accentGlowLightness: -0.04,

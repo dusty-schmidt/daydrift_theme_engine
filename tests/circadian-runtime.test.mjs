@@ -43,12 +43,14 @@ function makeElement(tag, textContent) {
     rel: '',
     href: '',
     id: '',
+    style: {},
     classList: {
       add(...names) { for (const name of names) classes.add(name); },
       remove(...names) { for (const name of names) classes.delete(name); },
       contains(name) { return classes.has(name); }
     },
     setAttribute(name, value) { this[name] = value; },
+    appendChild(child) { this.children.push(child); return child; },
     querySelector() { return null; }
   };
 }
@@ -60,6 +62,7 @@ test('runtime injects stylesheet, applies palette variables, owns dark mode, and
     localStorage: globalThis.localStorage,
     MutationObserver: globalThis.MutationObserver,
     requestAnimationFrame: globalThis.requestAnimationFrame,
+    performance: globalThis.performance,
   };
   const fake = makeFakeDom();
   const storage = new Map([['darkMode', 'false']]);
@@ -70,6 +73,8 @@ test('runtime injects stylesheet, applies palette variables, owns dark mode, and
       getItem(key) { return storage.has(key) ? storage.get(key) : null; },
       setItem(key, value) { storage.set(key, String(value)); }
     };
+    let nowMs = 0;
+    globalThis.performance = { now() { return nowMs; } };
     globalThis.window = {
       setInterval(fn, ms) { intervals.push({ fn, ms }); return intervals.length; },
       clearInterval() {},
@@ -92,7 +97,7 @@ test('runtime injects stylesheet, applies palette variables, owns dark mode, and
     assert.equal(storage.get('daydriftTheme.previousDarkMode'), 'false');
     assert.equal(fake.document.body.classList.contains('dark-mode'), true);
     assert.equal(fake.document.body.classList.contains('dynamic-circadian-theme'), true);
-    for (const key of ['--color-background', '--color-accent', '--color-chat-text', '--color-error-text', '--color-warning-text']) {
+    for (const key of ['--color-background', '--color-accent', '--color-chat-text', '--color-error-text', '--color-warning-text', '--color-composer-text', '--color-composer-text-muted']) {
       assert.match(fake.rootStyle.get(key), /^#[0-9a-f]{6}$/i, key);
     }
     assert.equal(fake.rowDark.classList.contains('dynamic-circadian-hide-dark-toggle'), true);
@@ -103,11 +108,17 @@ test('runtime injects stylesheet, applies palette variables, owns dark mode, and
     assert.ok(globalThis.window.DaydriftTheme.palette);
     assert.equal(typeof globalThis.window.DaydriftTheme.preview.start, 'function');
     assert.equal(typeof globalThis.window.DaydriftTheme.preview.stop, 'function');
+
+    globalThis.window.DaydriftTheme.preview.start();
+    nowMs = 22_500;
+    intervals.at(-1).fn();
+    assert.equal(fake.document.body.dataset.circadianPhase, 'midnight');
   } finally {
     globalThis.window = original.window;
     globalThis.document = original.document;
     globalThis.localStorage = original.localStorage;
     globalThis.MutationObserver = original.MutationObserver;
     globalThis.requestAnimationFrame = original.requestAnimationFrame;
+    globalThis.performance = original.performance;
   }
 });

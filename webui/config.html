@@ -1,0 +1,116 @@
+<html>
+<head><title>Daydrift Theme Engine</title></head>
+<body>
+<div x-data>
+  <template x-if="config">
+    <div>
+      <div class="section-title">Daydrift Theme Engine</div>
+      <div class="section-description">
+        Zero-configuration circadian theme. Runs automatically using your browser's local time.
+        The timezone override below is only needed if you want to preview a different timezone
+        or if your browser fails to detect the correct timezone (very rare).
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="tz-override" class="field-title">Timezone override</label>
+          <div class="field-description">
+            Set an IANA timezone (e.g. <code>Asia/Tokyo</code>, <code>Europe/London</code>, <code>America/New_York</code>)
+            to preview what the theme looks like at that location's local time. Leave as
+            <code>auto</code> to use your browser's detected timezone. Changes apply on next page load.
+          </div>
+        </div>
+        <div class="field-control">
+          <select id="tz-override" x-model="config.overrideTimezone" aria-label="Timezone override"
+            x-init="if (!config.overrideTimezone) config.overrideTimezone = 'auto'
+              const saved = localStorage.getItem('daydriftTheme.overrideTimezone');
+              if (saved) config.overrideTimezone = saved;"
+            @change="localStorage.setItem('daydriftTheme.overrideTimezone', $el.value)">
+            <option value="auto">auto (browser detected)</option>
+            <optgroup label="North America">
+              <option value="America/New_York">America/New_York</option>
+              <option value="America/Chicago">America/Chicago</option>
+              <option value="America/Denver">America/Denver</option>
+              <option value="America/Los_Angeles">America/Los_Angeles</option>
+            </optgroup>
+            <optgroup label="Europe">
+              <option value="Europe/London">Europe/London</option>
+              <option value="Europe/Paris">Europe/Paris</option>
+              <option value="Europe/Berlin">Europe/Berlin</option>
+            </optgroup>
+            <optgroup label="Asia">
+              <option value="Asia/Tokyo">Asia/Tokyo</option>
+              <option value="Asia/Shanghai">Asia/Shanghai</option>
+              <option value="Asia/Kolkata">Asia/Kolkata</option>
+            </optgroup>
+            <optgroup label="Oceania">
+              <option value="Australia/Sydney">Australia/Sydney</option>
+              <option value="Pacific/Auckland">Pacific/Auckland</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <div class="field-title">Current detected timezone</div>
+          <div class="field-description">
+            Read-only — shows what your browser reports. Useful for verifying the override
+            is working correctly.
+          </div>
+        </div>
+        <div class="field-control" style="font-family: monospace; opacity: 0.7;" x-text="$store.daydriftTheme?.detectedTimezone || 'unknown'">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label">
+          <label for="brightness-slider" class="field-title">Brightness</label>
+          <div class="field-description">
+            Darker → daytime phases stay dim. Lighter → nighttime phases stay bright.
+          </div>
+        </div>
+        <div class="field-control">
+          <input id="brightness-slider" type="range" min="0" max="1" step="0.05" aria-label="Brightness"
+            x-model="config.brightness"
+            x-init="config.brightness = parseFloat(localStorage.getItem('daydriftTheme.brightness') || '0.5')"
+            @input="localStorage.setItem('daydriftTheme.brightness', $el.value)" />
+          <span x-text="config.brightness.toFixed(2)" style="font-family:monospace;opacity:0.7"></span>
+        </div>
+      </div>
+
+      <div class="field" x-data="{ previewRunning: false }" @daydrift-preview-stopped.window="previewRunning = false">
+        <div class="field-label">
+          <div class="field-title">Preview 24h Cycle</div>
+          <div class="field-description">
+            Runs a continuous 24‑hour circadian cycle preview loop. Close this menu to
+            watch the chat window transform. A floating "Stop" button will appear in the bottom-right corner.
+          </div>
+        </div>
+        <div class="field-control">
+          <button type="button" class="btn btn-primary"
+            :disabled="previewRunning"
+            @click="
+              previewRunning = true;
+              window.DaydriftTheme?.preview?.start(45000, false);
+              const pWin = window.parent || window;
+              if (typeof pWin.closeModal === 'function') {
+                setTimeout(() => {
+                  pWin.closeModal().then(() => {
+                    setTimeout(() => {
+                      pWin.closeModal();
+                    }, 50);
+                  });
+                }, 100);
+              }
+            ">
+            <span x-show="!previewRunning">Start Preview</span>
+            <span x-show="previewRunning">Preview running…</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </template>
+</div>
+</body>
+</html>
