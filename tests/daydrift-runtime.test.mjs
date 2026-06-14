@@ -87,12 +87,12 @@ test('runtime injects stylesheet, applies palette variables, owns dark mode, and
     };
     globalThis.requestAnimationFrame = (fn) => fn();
 
-    const { default: initDaydriftTheme } = await import(`../webui/circadian-theme.js?test=${Date.now()}`);
+    const { default: initDaydriftTheme } = await import(`../webui/daydrift-theme.js?test=${Date.now()}`);
     initDaydriftTheme('file:///a0/usr/plugins/daydrift_theme_engine/');
 
     assert.equal(fake.links.length, 1);
     assert.equal(fake.links[0].id, 'dynamic-circadian-theme-css');
-    assert.match(fake.links[0].href, /circadian-theme\.css(?:\?v=\d+\.\d+\.\d+)?$/);
+    assert.match(fake.links[0].href, /daydrift-theme\.css(?:\?v=\d+\.\d+\.\d+)?$/);
     assert.equal(storage.get('darkMode'), 'true');
     assert.equal(storage.get('daydriftTheme.previousDarkMode'), 'false');
     assert.equal(fake.document.body.classList.contains('dark-mode'), true);

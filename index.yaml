@@ -1,9 +1,8 @@
 title: Daydrift Theme Engine
-description: Zero-configuration Agent Zero WebUI theme that follows local time with smooth circadian color drift and unique, per-user daily variation.
+description: Agent Zero WebUI theme that follows local time with smooth circadian color drift and subtle daily variation.
 github: https://github.com/dusty-schmidt/daydrift_theme_engine
 tags:
   - theme
   - webui
   - ui
-  - zero-config
   - productivity

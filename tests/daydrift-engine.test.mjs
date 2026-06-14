@@ -11,7 +11,7 @@ import {
   interpolatePalette,
   makePaletteForDate,
   smoothstep,
-} from '../webui/circadian-engine.mjs';
+} from '../webui/daydrift-engine.mjs';
 
 test('clampMinuteOfDay wraps arbitrary minutes into one local day', () => {
   assert.equal(clampMinuteOfDay(0), 0);

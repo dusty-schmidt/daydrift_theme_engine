@@ -7,7 +7,7 @@ import {
   makePaletteForDate,
   smoothstep,
   MINUTES_PER_DAY,
-} from './circadian-engine.mjs';
+} from './daydrift-engine.mjs';
 
 const CSS_ID = 'dynamic-circadian-theme-css';
 const UPDATE_MS = 30_000;
@@ -74,7 +74,7 @@ function injectStyles(pluginBaseUrl) {
   const link = document.createElement('link');
   link.id = CSS_ID;
   link.rel = 'stylesheet';
-  link.href = new URL('webui/circadian-theme.css?v=1.0.0', pluginBaseUrl).href;
+  link.href = new URL('webui/daydrift-theme.css?v=1.0.0', pluginBaseUrl).href;
   document.head.appendChild(link);
 }
 
