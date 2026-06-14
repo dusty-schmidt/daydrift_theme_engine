@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.toggle-1
+config.json
+*.log
+.DS_Store

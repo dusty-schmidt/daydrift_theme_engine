@@ -182,12 +182,7 @@ function relativeLuminance(hex) {
   return 0.2126 * lr + 0.7152 * lg + 0.0722 * lb;
 }
 
-function getBrightnessSetting() {
-  try {
-    const val = localStorage.getItem('daydriftTheme.brightness');
-    return val !== null ? parseFloat(val) : 0.5;
-  } catch { return 0.5; }
-}
+
 
 function ensureFrameWindowSeparation(result) {
   const frameKeys = ['panel', 'messageBg', 'tableRow'];
@@ -319,17 +314,6 @@ export function interpolatePalette(phases, minuteOfDay, drift = {}) {
   }
   ensureFrameWindowSeparation(result);
 
-  // Brightness slider: clamp lightness range based on user preference.
-  // 0 = darkest (cap max lightness), 1 = lightest (raise min lightness).
-  const brightness = getBrightnessSetting();
-  const minL = 0.02 + brightness * 0.15;   // 0.02 → 0.17
-  const maxL = 0.65 + brightness * 0.30;   // 0.65 → 0.95
-  for (const key of ['panel', 'chatBackground', 'background', 'messageBg', 'tableRow', 'input']) {
-    const c = hexToHsl(result[key]);
-    c.l = clamp01(minL + (c.l - 0.02) * (maxL - minL) / (0.95 - 0.02));
-    result[key] = hslToHex(c.h, c.s, c.l);
-  }
-
   enforceReadableText(result);
 
   // Generate dynamic, harmoniously shifting secondary colors derived from the main accent color
@@ -442,12 +426,6 @@ export function makePaletteForDate(date = new Date(), timezone = browserTimezone
 }
 
 export function browserTimezone() {
-  // Check for user-configured override first (set via Settings panel)
-  try {
-    const override = localStorage.getItem('daydriftTheme.overrideTimezone');
-    if (override && override !== 'auto') return override;
-  } catch {}
-  // Fall back to browser's Intl API
   try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'local'; }
   catch { return 'local'; }
 }

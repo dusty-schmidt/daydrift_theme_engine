@@ -4,7 +4,7 @@ export default async function loadDaydriftTheme() {
 
   // Keep this version query in sync with plugin.yaml so browser ES-module caches
   // cannot keep serving an older runtime after a plugin update/reload.
-  const runtimeUrl = new URL('webui/circadian-theme.js?v=0.3.1', pluginBaseUrl).href;
+  const runtimeUrl = new URL('webui/circadian-theme.js?v=1.0.0', pluginBaseUrl).href;
   const module = await import(runtimeUrl);
 
   if (typeof module.default === 'function') {
