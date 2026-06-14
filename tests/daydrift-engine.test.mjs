@@ -7,6 +7,7 @@ import {
   WCAG_AA_LARGE_TEXT,
   buildDailyDrift,
   clampMinuteOfDay,
+  dayDimmer,
   findPhaseWindow,
   interpolatePalette,
   makePaletteForDate,
@@ -266,3 +267,139 @@ function relativeLuminance(hex) {
   });
   return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
 }
+
+// ── Coverage: dayDimmer pure function ─────────────────────────────────────
+test('dayDimmer returns min at dayFactor=1, max at dayFactor=0, and interpolates linearly', () => {
+  // At peak day (dayFactor=1), should return min
+  assert.equal(dayDimmer(1, 0.15, 1.0), 0.15);
+  // At night (dayFactor=0), should return max
+  assert.equal(dayDimmer(0, 0.15, 1.0), 1.0);
+  // Default max=1.0
+  assert.equal(dayDimmer(0, 0.5), 1.0);
+  assert.equal(dayDimmer(1, 0.5), 0.5);
+  // Linear interpolation at midpoint
+  const mid = dayDimmer(0.5, 0, 1.0);
+  assert.ok(Math.abs(mid - 0.5) < 0.001, `midpoint should be ~0.5, got ${mid}`);
+  // With non-default range
+  const range = dayDimmer(0.5, 0.2, 0.8);
+  assert.ok(Math.abs(range - 0.5) < 0.001, `midpoint of [0.2,0.8] should be ~0.5, got ${range}`);
+});
+
+test('dayDimmer is monotonically decreasing as dayFactor increases', () => {
+  let prev = dayDimmer(0, 0.1, 0.9);
+  for (let i = 1; i <= 10; i++) {
+    const current = dayDimmer(i / 10, 0.1, 0.9);
+    assert.ok(current <= prev, `dayDimmer should decrease as dayFactor increases (${prev} -> ${current})`);
+    prev = current;
+  }
+});
+
+// ── Coverage: edge cases ──────────────────────────────────────────────────
+test('interpolatePalette with empty phases throws (degenerate input)', () => {
+  assert.throws(() => interpolatePalette([], 0, {}), {
+    message: /undefined|Cannot read properties/i,
+  }, 'empty phases array should throw because findPhaseWindow returns undefined');
+});
+
+test('interpolatePalette with incomplete single phase throws (degenerate input)', () => {
+  const single = [
+    { name: 'test', minute: 0, palette: { background: '#ff0000' } },
+  ];
+  assert.throws(() => interpolatePalette(single, 0, {}), {
+    message: /undefined|null|Cannot read properties/i,
+  }, 'incomplete palette should throw because interpolateColor needs full hex values');
+});
+
+test('interpolatePalette with missing drift fields defaults gracefully', () => {
+  // Passing empty drift object should not throw
+  const result = interpolatePalette(DEFAULT_PHASES, 720, {});
+  assert.ok(result, 'empty drift should not cause failure');
+  assert.match(result.background, /^#[0-9a-f]{6}$/i);
+});
+
+// ── Coverage: daydrift-phases.mjs direct module boundary ─────────────────
+import { DEFAULT_PHASES as PHASES_DIRECT } from '../webui/daydrift-phases.mjs';
+
+test('daydrift-phases.mjs exports DEFAULT_PHASES directly', () => {
+  assert.ok(Array.isArray(PHASES_DIRECT), 'DEFAULT_PHASES should be an array');
+  assert.equal(PHASES_DIRECT.length, 12, 'should have 12 phases');
+  const names = PHASES_DIRECT.map(p => p.name);
+  assert.deepEqual(names, [
+    'midnight', 'deep_night', 'predawn', 'dawn', 'sunrise', 'morning',
+    'late_morning', 'solar_noon', 'afternoon', 'golden_hour', 'dusk', 'late_evening',
+  ]);
+  // Verify the re-export from the engine matches the direct import
+  assert.deepEqual(PHASES_DIRECT, DEFAULT_PHASES, 'engine re-export should equal direct phases import');
+});
+
+// ── Coverage: night phase differentiation ─────────────────────────────────
+test('night phase interpolation produces distinct output across midnight/deep_night/predawn', () => {
+  const zeroDrift = { surfaceHue: 0, surfaceSaturation: 0, surfaceLightness: 0, frameHue: 0, frameSaturation: 0, frameLightness: 0, windowHue: 0, windowSaturation: 0, windowLightness: 0, accentBias: 0 };
+  const midnight = interpolatePalette(DEFAULT_PHASES, 0, zeroDrift);
+  const deepNight = interpolatePalette(DEFAULT_PHASES, 120, zeroDrift);
+  const predawn = interpolatePalette(DEFAULT_PHASES, 240, zeroDrift);
+  // All three endpoints should differ from each other in at least one palette key
+  const midnightVals = Object.values(midnight);
+  const deepNightVals = Object.values(deepNight);
+  const predawnVals = Object.values(predawn);
+  const midnightSet = new Set(midnightVals);
+  const deepNightSet = new Set(deepNightVals);
+  const predawnSet = new Set(predawnVals);
+  // midnight and deep_night should not be identical palettes
+  assert.ok(midnightSet.size !== deepNightSet.size || !midnightVals.every((v, i) => v === deepNightVals[i]),
+    'midnight and deep_night should produce different interpolated palettes');
+  // deep_night and predawn should not be identical palettes
+  assert.ok(deepNightSet.size !== predawnSet.size || !deepNightVals.every((v, i) => v === predawnVals[i]),
+    'deep_night and predawn should produce different interpolated palettes');
+  // Accent should show progression across the three phases
+  assert.notEqual(midnight.accent, deepNight.accent, 'midnight and deep_night accents should differ');
+  assert.notEqual(deepNight.accent, predawn.accent, 'deep_night and predawn accents should differ');
+});
+
+// ── Coverage: derived tokens from enforceReadableText ────────────────────
+test('interpolatePalette returns all derived tokens as valid hex', () => {
+  const palette = interpolatePalette(DEFAULT_PHASES, 720, { hue: 0, saturation: 0, lightness: 0, accentBias: 0 });
+  const derivedKeys = [
+    'frameText', 'sidebarText', 'windowText', 'chatText', 'backgroundText',
+    'frameTextMuted', 'chatPrimary', 'chatAccent', 'chatHighlight',
+    'errorPanel',
+  ];
+  for (const key of derivedKeys) {
+    assert.ok(palette[key] != null, `${key} should exist on palette`);
+    assert.match(palette[key], /^#[0-9a-f]{6}$/i, `${key} should be valid hex: ${palette[key]}`);
+  }
+});
+
+test('day mode derived chat-family tokens exist and are valid hex', () => {
+  // During daytime (minute 720), chat background is light and panel is dark.
+  // The engine computes chat-prefixed tokens for readability against the light chat background.
+  // If the base accent already passes contrast, chatAccent === accent (correct behavior).
+  const palette = interpolatePalette(DEFAULT_PHASES, 720, { hue: 0, saturation: 0, lightness: 0, accentBias: 0 });
+  assert.ok(palette.chatAccent != null, 'chatAccent should exist');
+  assert.ok(palette.chatPrimary != null, 'chatPrimary should exist');
+  assert.ok(palette.chatHighlight != null, 'chatHighlight should exist');
+  assert.match(palette.chatAccent, /^#[0-9a-f]{6}$/i, 'chatAccent should be valid hex');
+  assert.match(palette.chatPrimary, /^#[0-9a-f]{6}$/i, 'chatPrimary should be valid hex');
+  assert.match(palette.chatHighlight, /^#[0-9a-f]{6}$/i, 'chatHighlight should be valid hex');
+});
+
+// ── Coverage: buildDailyDrift multi-channel accent fields ───────────────
+test('buildDailyDrift includes all multi-channel accent fields within bounds', () => {
+  const drift = buildDailyDrift('2026-06-02', 'America/New_York');
+  // Verify multi-channel accent fields exist
+  assert.ok('accentBaseHue' in drift, 'accentBaseHue should exist');
+  assert.ok('accentLinkHue' in drift, 'accentLinkHue should exist');
+  assert.ok('accentFillHue' in drift, 'accentFillHue should exist');
+  assert.ok('accentGlowHue' in drift, 'accentGlowHue should exist');
+  // Verify base hue is in [0, 360)
+  assert.ok(drift.accentBaseHue >= 0 && drift.accentBaseHue < 360, `accentBaseHue ${drift.accentBaseHue} should be in [0, 360)`);
+  // Verify sub-channel hues are within their bounds
+  assert.ok(Math.abs(drift.accentLinkHue) <= 14, `accentLinkHue ${drift.accentLinkHue} should be within ±14`);
+  assert.ok(Math.abs(drift.accentFillHue) <= 11, `accentFillHue ${drift.accentFillHue} should be within ±11`);
+  assert.ok(Math.abs(drift.accentGlowHue) <= 9, `accentGlowHue ${drift.accentGlowHue} should be within ±9`);
+  // Verify saturation and lightness sub-fields exist
+  for (const channel of ['Link', 'Fill', 'Glow']) {
+    assert.ok(`accent${channel}Saturation` in drift, `accent${channel}Saturation should exist`);
+    assert.ok(`accent${channel}Lightness` in drift, `accent${channel}Lightness should exist`);
+  }
+});
