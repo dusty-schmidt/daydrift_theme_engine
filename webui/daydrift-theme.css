@@ -71,8 +71,6 @@ body.dynamic-daydrift-theme #input-section:active {
 body.dynamic-daydrift-theme .sidebar-shell,
 body.dynamic-daydrift-theme #left-panel {
   background: var(--color-panel) !important;
-  border-right: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
-
   border-right: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent);
 }
 
@@ -88,9 +86,7 @@ body.dynamic-daydrift-theme #right-panel {
 body.dynamic-daydrift-theme .sidebar-header-panel,
 body.dynamic-daydrift-theme #sidebar-header-panel {
   background: var(--color-panel) !important;
-  border-right: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
-
-  background-color: var(--color-panel) !important;
+  border-right: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent);
 }
 
 /* DASHBOARD ZONE: match chat background for cohesion and readability.

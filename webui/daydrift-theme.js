@@ -139,12 +139,13 @@ function applyPalette(state) {
     '--color-chat-primary': state.palette.chatPrimary || state.palette.primary,
     '--color-chat-highlight': state.palette.chatHighlight || state.palette.highlight,
     '--color-error-panel': state.palette.errorPanel || state.palette.errorText,
-    '--dynamic-daydrift-phase': `'${state.phase.current.name}`,
-    '--dynamic-daydrift-timezone': `'${state.timezone}'`
+    '--dynamic-daydrift-phase': `${state.phase.current.name}`,
+    '--dynamic-daydrift-timezone': `${state.timezone}`
   };
   for (const [key, value] of Object.entries(map)) root.style.setProperty(key, value);
 
   for (const [key, value] of Object.entries(state.palette)) {
+    if (value == null) continue;
     const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
     root.style.setProperty(`--color-${cssKey}`, value);
   }

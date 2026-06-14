@@ -213,8 +213,17 @@ export function smoothstep(t) {
   return x * x * (3 - 2 * x);
 }
 
+const SORTED_PHASES_CACHE = new Map();
+
+function getSortedPhases(phases) {
+  if (!SORTED_PHASES_CACHE.has(phases)) {
+    SORTED_PHASES_CACHE.set(phases, [...phases].sort((a, b) => a.minute - b.minute));
+  }
+  return SORTED_PHASES_CACHE.get(phases);
+}
+
 export function findPhaseWindow(phases, minuteOfDay) {
-  const sorted = [...phases].sort((a, b) => a.minute - b.minute);
+  const sorted = getSortedPhases(phases);
   const minute = clampMinuteOfDay(minuteOfDay);
   let current = sorted[sorted.length - 1];
   let next = sorted[0];
