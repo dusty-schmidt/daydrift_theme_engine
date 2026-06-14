@@ -229,6 +229,15 @@ body.dynamic-daydrift-theme #chat-history .terminal-output * {
   color: var(--color-text) !important;
 }
 
+/* Message bubble containers — subtle background for visual separation */
+body.dynamic-daydrift-theme .message-user,
+body.dynamic-daydrift-theme .message-assistant {
+  background: color-mix(in srgb, var(--color-message-bg) 40%, transparent) !important;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin: 2px 0;
+}
+
 /* Message bubble text */
 body.dynamic-daydrift-theme .message-user *,
 body.dynamic-daydrift-theme .message-assistant *,
