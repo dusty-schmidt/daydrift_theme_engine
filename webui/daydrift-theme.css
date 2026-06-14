@@ -26,37 +26,37 @@
    A. TRANSITIONS
    Smooth phase-to-phase colour fades on the surfaces the plugin owns.
    -------------------------------------------------------------------------- */
-body.dynamic-circadian-theme #left-panel,
-body.dynamic-circadian-theme #right-panel,
-body.dynamic-circadian-theme .sidebar-shell {
+body.dynamic-daydrift-theme #left-panel,
+body.dynamic-daydrift-theme #right-panel,
+body.dynamic-daydrift-theme .sidebar-shell {
   transition: background-color 1.6s ease, border-color 1.6s ease;
 }
-body.dynamic-circadian-theme #left-panel:hover,
-body.dynamic-circadian-theme #left-panel:active,
-body.dynamic-circadian-theme #right-panel:hover,
-body.dynamic-circadian-theme #right-panel:active,
-body.dynamic-circadian-theme .sidebar-shell:hover,
-body.dynamic-circadian-theme .sidebar-shell:active {
+body.dynamic-daydrift-theme #left-panel:hover,
+body.dynamic-daydrift-theme #left-panel:active,
+body.dynamic-daydrift-theme #right-panel:hover,
+body.dynamic-daydrift-theme #right-panel:active,
+body.dynamic-daydrift-theme .sidebar-shell:hover,
+body.dynamic-daydrift-theme .sidebar-shell:active {
   transition-duration: 0.2s !important;
 }
 
-body.dynamic-circadian-theme #chat-history,
-body.dynamic-circadian-theme #input-section {
+body.dynamic-daydrift-theme #chat-history,
+body.dynamic-daydrift-theme #input-section {
   transition: background-color 1.6s ease, color 1.2s ease;
 }
-body.dynamic-circadian-theme #chat-history:hover,
-body.dynamic-circadian-theme #chat-history:active,
-body.dynamic-circadian-theme #input-section:hover,
-body.dynamic-circadian-theme #input-section:active {
+body.dynamic-daydrift-theme #chat-history:hover,
+body.dynamic-daydrift-theme #chat-history:active,
+body.dynamic-daydrift-theme #input-section:hover,
+body.dynamic-daydrift-theme #input-section:active {
   transition-duration: 0.2s !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.dynamic-circadian-theme #left-panel,
-  body.dynamic-circadian-theme #right-panel,
-  body.dynamic-circadian-theme .sidebar-shell,
-  body.dynamic-circadian-theme #chat-history,
-  body.dynamic-circadian-theme #input-section {
+  body.dynamic-daydrift-theme #left-panel,
+  body.dynamic-daydrift-theme #right-panel,
+  body.dynamic-daydrift-theme .sidebar-shell,
+  body.dynamic-daydrift-theme #chat-history,
+  body.dynamic-daydrift-theme #input-section {
     transition: none !important;
   }
 }
@@ -68,8 +68,8 @@ body.dynamic-circadian-theme #input-section:active {
    -------------------------------------------------------------------------- */
 
 /* SIDEBAR ZONE: outer shell + left panel */
-body.dynamic-circadian-theme .sidebar-shell,
-body.dynamic-circadian-theme #left-panel {
+body.dynamic-daydrift-theme .sidebar-shell,
+body.dynamic-daydrift-theme #left-panel {
   background: var(--color-panel) !important;
   border-right: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
 
@@ -78,15 +78,15 @@ body.dynamic-circadian-theme #left-panel {
 
 /* RIGHT PANEL ZONE: the main right-side frame (and dashboard background).
    Uses chat background so the dashboard and chat area share a cohesive surface. */
-body.dynamic-circadian-theme #right-panel {
+body.dynamic-daydrift-theme #right-panel {
   background: var(--color-chat-background) !important;
 }
 
 /* LOGO / BANNER ZONE: the Agent Zero SVG banner + hamburger icon at top of sidebar.
    By default this element reads --color-chat-background (core inline style).
    Rule: this element must ALWAYS match the panel background, not the chat window. */
-body.dynamic-circadian-theme .sidebar-header-panel,
-body.dynamic-circadian-theme #sidebar-header-panel {
+body.dynamic-daydrift-theme .sidebar-header-panel,
+body.dynamic-daydrift-theme #sidebar-header-panel {
   background: var(--color-panel) !important;
   border-right: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
 
@@ -95,22 +95,22 @@ body.dynamic-circadian-theme #sidebar-header-panel {
 
 /* DASHBOARD ZONE: match chat background for cohesion and readability.
    Prevents the default dark dashboard from clashing with adapted light text. */
-body.dynamic-circadian-theme #dashboard,
-body.dynamic-circadian-theme .view-dashboard,
-body.dynamic-circadian-theme .dashboard-grid,
-body.dynamic-circadian-theme .main-content {
+body.dynamic-daydrift-theme #dashboard,
+body.dynamic-daydrift-theme .view-dashboard,
+body.dynamic-daydrift-theme .dashboard-grid,
+body.dynamic-daydrift-theme .main-content {
   background: var(--color-chat-background) !important;
 }
 
 /* DASHBOARD WATERMARK: Hide the Agent Zero SVG logo watermark.
    It's hardcoded for dark backgrounds. Hiding it gives a clean Slate surface. */
-body.dynamic-circadian-theme .welcome-container::before {
+body.dynamic-daydrift-theme .welcome-container::before {
   display: none !important;
 }
 
 /* DASHBOARD CONTAINER: Force the inner wrapper to match the chat background.
    Overrides the hardcoded dark olive default. */
-body.dynamic-circadian-theme .welcome-container {
+body.dynamic-daydrift-theme .welcome-container {
   background: var(--color-chat-background) !important;
 }
 
@@ -119,7 +119,7 @@ body.dynamic-circadian-theme .welcome-container {
    C. BODY GRADIENT
    Subtle radial glow behind the main background.
    -------------------------------------------------------------------------- */
-body.dynamic-circadian-theme {
+body.dynamic-daydrift-theme {
   background:
     radial-gradient(circle at 18% 8%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 34rem),
     radial-gradient(circle at 88% 22%, color-mix(in srgb, var(--color-highlight) 12%, transparent), transparent 40rem),
@@ -145,231 +145,231 @@ body.dynamic-circadian-theme {
    -------------------------------------------------------------------------- */
 
 /* Sidebar + input zone text (all panel-background surfaces) */
-body.dynamic-circadian-theme #left-panel,
-body.dynamic-circadian-theme #left-panel *,
-body.dynamic-circadian-theme .sidebar-shell,
-body.dynamic-circadian-theme .sidebar-shell *,
-body.dynamic-circadian-theme .sidebar-header-panel,
-body.dynamic-circadian-theme .sidebar-header-panel *,
-body.dynamic-circadian-theme #sidebar-header-panel,
-body.dynamic-circadian-theme #sidebar-header-panel *,
-body.dynamic-circadian-theme #input-section,
-body.dynamic-circadian-theme #input-section *,
-body.dynamic-circadian-theme #progress-bar-box,
-body.dynamic-circadian-theme #progress-bar-box *,
-body.dynamic-circadian-theme #chat-nav-buttons,
-body.dynamic-circadian-theme #chat-nav-buttons * {
+body.dynamic-daydrift-theme #left-panel,
+body.dynamic-daydrift-theme #left-panel *,
+body.dynamic-daydrift-theme .sidebar-shell,
+body.dynamic-daydrift-theme .sidebar-shell *,
+body.dynamic-daydrift-theme .sidebar-header-panel,
+body.dynamic-daydrift-theme .sidebar-header-panel *,
+body.dynamic-daydrift-theme #sidebar-header-panel,
+body.dynamic-daydrift-theme #sidebar-header-panel *,
+body.dynamic-daydrift-theme #input-section,
+body.dynamic-daydrift-theme #input-section *,
+body.dynamic-daydrift-theme #progress-bar-box,
+body.dynamic-daydrift-theme #progress-bar-box *,
+body.dynamic-daydrift-theme #chat-nav-buttons,
+body.dynamic-daydrift-theme #chat-nav-buttons * {
   color: var(--color-frame-text) !important;
 }
 
-body.dynamic-circadian-theme #input-section input,
-body.dynamic-circadian-theme #input-section textarea,
-body.dynamic-circadian-theme #input-section [contenteditable="true"] {
+body.dynamic-daydrift-theme #input-section input,
+body.dynamic-daydrift-theme #input-section textarea,
+body.dynamic-daydrift-theme #input-section [contenteditable="true"] {
   color: var(--color-frame-text) !important;
   caret-color: var(--color-frame-text) !important;
 }
 
-body.dynamic-circadian-theme #input-section input::placeholder,
-body.dynamic-circadian-theme #input-section textarea::placeholder {
+body.dynamic-daydrift-theme #input-section input::placeholder,
+body.dynamic-daydrift-theme #input-section textarea::placeholder {
   color: var(--color-frame-text-muted, var(--color-text-muted)) !important;
 }
-body.dynamic-circadian-theme #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *) {
+body.dynamic-daydrift-theme #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *) {
   color: var(--color-composer-text) !important;
   caret-color: var(--color-composer-text) !important;
   -webkit-text-fill-color: var(--color-composer-text) !important;
   transition: color 1.6s ease, -webkit-text-fill-color 1.6s ease, caret-color 1.6s ease;
 }
-body.dynamic-circadian-theme #input-section input::placeholder,
-body.dynamic-circadian-theme #input-section textarea::placeholder {
+body.dynamic-daydrift-theme #input-section input::placeholder,
+body.dynamic-daydrift-theme #input-section textarea::placeholder {
   color: var(--color-composer-text-muted) !important;
   transition: color 1.6s ease;
 }
-body.dynamic-circadian-theme #input-section input::selection,
-body.dynamic-circadian-theme #input-section textarea::selection,
-body.dynamic-circadian-theme #input-section [contenteditable="true"]::selection {
+body.dynamic-daydrift-theme #input-section input::selection,
+body.dynamic-daydrift-theme #input-section textarea::selection,
+body.dynamic-daydrift-theme #input-section [contenteditable="true"]::selection {
   color: var(--color-composer-text) !important;
   background: color-mix(in srgb, var(--color-composer-text) 16%, transparent);
 }
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *) {
+body.dynamic-daydrift-theme[data-daydrift-phase="morning"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
+body.dynamic-daydrift-theme[data-daydrift-phase="late_morning"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
+body.dynamic-daydrift-theme[data-daydrift-phase="solar_noon"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
+body.dynamic-daydrift-theme[data-daydrift-phase="afternoon"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *) {
   color: var(--color-composer-text) !important;
   caret-color: var(--color-composer-text) !important;
   -webkit-text-fill-color: var(--color-composer-text) !important;
 }
 
 /* Chat history window text */
-body.dynamic-circadian-theme #chat-history,
-body.dynamic-circadian-theme #chat-history .message-group,
-body.dynamic-circadian-theme #chat-history .message-container,
-body.dynamic-circadian-theme #chat-history .message,
-body.dynamic-circadian-theme #chat-history .message-body,
-body.dynamic-circadian-theme #chat-history .msg-content,
-body.dynamic-circadian-theme #chat-history .message-text,
-body.dynamic-circadian-theme #chat-history .process-group,
-body.dynamic-circadian-theme #chat-history .process-group-header,
-body.dynamic-circadian-theme #chat-history .process-group-content,
-body.dynamic-circadian-theme #chat-history .process-step,
-body.dynamic-circadian-theme #chat-history .process-step-header,
-body.dynamic-circadian-theme #chat-history .process-step-detail-content,
-body.dynamic-circadian-theme #chat-history .msg-kvps,
-body.dynamic-circadian-theme #chat-history .msg-kvps *,
-body.dynamic-circadian-theme #chat-history p,
-body.dynamic-circadian-theme #chat-history pre,
-body.dynamic-circadian-theme #chat-history strong,
-body.dynamic-circadian-theme #chat-history span,
-body.dynamic-circadian-theme #chat-history button {
+body.dynamic-daydrift-theme #chat-history,
+body.dynamic-daydrift-theme #chat-history .message-group,
+body.dynamic-daydrift-theme #chat-history .message-container,
+body.dynamic-daydrift-theme #chat-history .message,
+body.dynamic-daydrift-theme #chat-history .message-body,
+body.dynamic-daydrift-theme #chat-history .msg-content,
+body.dynamic-daydrift-theme #chat-history .message-text,
+body.dynamic-daydrift-theme #chat-history .process-group,
+body.dynamic-daydrift-theme #chat-history .process-group-header,
+body.dynamic-daydrift-theme #chat-history .process-group-content,
+body.dynamic-daydrift-theme #chat-history .process-step,
+body.dynamic-daydrift-theme #chat-history .process-step-header,
+body.dynamic-daydrift-theme #chat-history .process-step-detail-content,
+body.dynamic-daydrift-theme #chat-history .msg-kvps,
+body.dynamic-daydrift-theme #chat-history .msg-kvps *,
+body.dynamic-daydrift-theme #chat-history p,
+body.dynamic-daydrift-theme #chat-history pre,
+body.dynamic-daydrift-theme #chat-history strong,
+body.dynamic-daydrift-theme #chat-history span,
+body.dynamic-daydrift-theme #chat-history button {
   color: var(--color-chat-text) !important;
 }
 
 /* Terminal output inside chat: use raw --color-text (monospace readability) */
-body.dynamic-circadian-theme #chat-history .terminal-output,
-body.dynamic-circadian-theme #chat-history .terminal-output * {
+body.dynamic-daydrift-theme #chat-history .terminal-output,
+body.dynamic-daydrift-theme #chat-history .terminal-output * {
   color: var(--color-text) !important;
 }
 
 /* Message bubble text */
-body.dynamic-circadian-theme .message-user *,
-body.dynamic-circadian-theme .message-assistant *,
-body.dynamic-circadian-theme .message-tool * {
+body.dynamic-daydrift-theme .message-user *,
+body.dynamic-daydrift-theme .message-assistant *,
+body.dynamic-daydrift-theme .message-tool * {
   color: var(--color-message-text) !important;
 }
 
 /* Secondary dynamic coloring for different tool calls and response boxes */
-body.dynamic-circadian-theme .message-tool {
+body.dynamic-daydrift-theme .message-tool {
   border-left: 3px solid var(--color-message-tool) !important;
   background: var(--color-panel) !important;
 }
-body.dynamic-circadian-theme .message-tool .msg-heading h4 {
+body.dynamic-daydrift-theme .message-tool .msg-heading h4 {
   color: var(--color-message-tool) !important;
 }
-body.dynamic-circadian-theme .message-tool .message-body {
+body.dynamic-daydrift-theme .message-tool .message-body {
   box-shadow: inset 3px 0 10px -3px var(--color-message-tool) !important;
 }
 
-body.dynamic-circadian-theme .message-code-exe {
+body.dynamic-daydrift-theme .message-code-exe {
   border-left: 3px solid var(--color-message-code-exe) !important;
   background: var(--color-panel) !important;
 }
-body.dynamic-circadian-theme .message-code-exe .msg-heading h4 {
+body.dynamic-daydrift-theme .message-code-exe .msg-heading h4 {
   color: var(--color-message-code-exe) !important;
 }
-body.dynamic-circadian-theme .message-code-exe .message-body {
+body.dynamic-daydrift-theme .message-code-exe .message-body {
   box-shadow: inset 3px 0 10px -3px var(--color-message-code-exe) !important;
 }
 
-body.dynamic-circadian-theme .message-browser {
+body.dynamic-daydrift-theme .message-browser {
   border-left: 3px solid var(--color-message-browser) !important;
   background: var(--color-panel) !important;
 }
-body.dynamic-circadian-theme .message-browser .msg-heading h4 {
+body.dynamic-daydrift-theme .message-browser .msg-heading h4 {
   color: var(--color-message-browser) !important;
 }
-body.dynamic-circadian-theme .message-browser .message-body {
+body.dynamic-daydrift-theme .message-browser .message-body {
   box-shadow: inset 3px 0 10px -3px var(--color-message-browser) !important;
 }
 
-body.dynamic-circadian-theme .message-util {
+body.dynamic-daydrift-theme .message-util {
   border-left: 3px solid var(--color-message-util) !important;
   background: var(--color-panel) !important;
 }
-body.dynamic-circadian-theme .message-util .msg-heading h4 {
+body.dynamic-daydrift-theme .message-util .msg-heading h4 {
   color: var(--color-message-util) !important;
 }
-body.dynamic-circadian-theme .message-util .message-body {
+body.dynamic-daydrift-theme .message-util .message-body {
   box-shadow: inset 3px 0 10px -3px var(--color-message-util) !important;
 }
 
-body.dynamic-circadian-theme .message-agent,
-body.dynamic-circadian-theme .message-agent-delegation {
+body.dynamic-daydrift-theme .message-agent,
+body.dynamic-daydrift-theme .message-agent-delegation {
   border-left: 3px solid var(--color-message-agent) !important;
   background: var(--color-panel) !important;
 }
-body.dynamic-circadian-theme .message-agent .msg-heading h4,
-body.dynamic-circadian-theme .message-agent-delegation .msg-heading h4 {
+body.dynamic-daydrift-theme .message-agent .msg-heading h4,
+body.dynamic-daydrift-theme .message-agent-delegation .msg-heading h4 {
   color: var(--color-message-agent) !important;
 }
-body.dynamic-circadian-theme .message-agent .message-body,
-body.dynamic-circadian-theme .message-agent-delegation .message-body {
+body.dynamic-daydrift-theme .message-agent .message-body,
+body.dynamic-daydrift-theme .message-agent-delegation .message-body {
   box-shadow: inset 3px 0 10px -3px var(--color-message-agent) !important;
 }
 
-body.dynamic-circadian-theme .message-info {
+body.dynamic-daydrift-theme .message-info {
   border-left: 3px solid var(--color-message-info) !important;
   background: var(--color-panel) !important;
 }
-body.dynamic-circadian-theme .message-info .msg-heading h4 {
+body.dynamic-daydrift-theme .message-info .msg-heading h4 {
   color: var(--color-message-info) !important;
 }
-body.dynamic-circadian-theme .message-info .message-body {
+body.dynamic-daydrift-theme .message-info .message-body {
   box-shadow: inset 3px 0 10px -3px var(--color-message-info) !important;
 }
 
-body.dynamic-circadian-theme .message-warning {
+body.dynamic-daydrift-theme .message-warning {
   border-left: 3px solid var(--color-message-warning) !important;
   background: var(--color-panel) !important;
 }
-body.dynamic-circadian-theme .message-warning .msg-heading h4 {
+body.dynamic-daydrift-theme .message-warning .msg-heading h4 {
   color: var(--color-message-warning) !important;
 }
-body.dynamic-circadian-theme .message-warning .message-body {
+body.dynamic-daydrift-theme .message-warning .message-body {
   box-shadow: inset 3px 0 10px -3px var(--color-message-warning) !important;
 }
 
-body.dynamic-circadian-theme .message-error {
+body.dynamic-daydrift-theme .message-error {
   border-left: 3px solid var(--color-message-error) !important;
   background: var(--color-panel) !important;
 }
-body.dynamic-circadian-theme .message-error .msg-heading h4 {
+body.dynamic-daydrift-theme .message-error .msg-heading h4 {
   color: var(--color-message-error) !important;
 }
-body.dynamic-circadian-theme .message-error .message-body {
+body.dynamic-daydrift-theme .message-error .message-body {
   box-shadow: inset 3px 0 10px -3px var(--color-message-error) !important;
 }
 
 /* Right-panel chrome: clock, notification bell, canvas rail.
    These sit over the chat backdrop and must follow --color-window-text
    so they adapt when chat-background shifts light/dark. */
-body.dynamic-circadian-theme .notification-toggle,
-body.dynamic-circadian-theme .notification-toggle *,
-body.dynamic-circadian-theme .right-canvas-rail,
-body.dynamic-circadian-theme .right-canvas-rail *,
-body.dynamic-circadian-theme .right-canvas-rail-button,
-body.dynamic-circadian-theme .right-canvas-rail-button * {
+body.dynamic-daydrift-theme .notification-toggle,
+body.dynamic-daydrift-theme .notification-toggle *,
+body.dynamic-daydrift-theme .right-canvas-rail,
+body.dynamic-daydrift-theme .right-canvas-rail *,
+body.dynamic-daydrift-theme .right-canvas-rail-button,
+body.dynamic-daydrift-theme .right-canvas-rail-button * {
   color: var(--color-window-text) !important;
 }
 
 /* Clock text — uses window text so it adapts to the chat background's brightness.
    Prevents invisible white text during light daytime phases. */
-body.dynamic-circadian-theme #time-date,
-body.dynamic-circadian-theme #time-date * {
+body.dynamic-daydrift-theme #time-date,
+body.dynamic-daydrift-theme #time-date * {
   color: var(--color-window-text) !important;
 }
 
 /* Muted secondary text — panel surfaces use frame-text-muted, chat uses text-muted */
-body.dynamic-circadian-theme #left-panel .text-muted,
-body.dynamic-circadian-theme #left-panel .muted,
-body.dynamic-circadian-theme #left-panel small,
-body.dynamic-circadian-theme #right-panel .text-muted,
-body.dynamic-circadian-theme #right-panel .muted,
-body.dynamic-circadian-theme #right-panel small,
-body.dynamic-circadian-theme .sidebar-shell .text-muted,
-body.dynamic-circadian-theme .sidebar-shell .muted,
-body.dynamic-circadian-theme .sidebar-shell small,
-body.dynamic-circadian-theme #input-section .text-muted,
-body.dynamic-circadian-theme #input-section .muted,
-body.dynamic-circadian-theme #input-section small {
+body.dynamic-daydrift-theme #left-panel .text-muted,
+body.dynamic-daydrift-theme #left-panel .muted,
+body.dynamic-daydrift-theme #left-panel small,
+body.dynamic-daydrift-theme #right-panel .text-muted,
+body.dynamic-daydrift-theme #right-panel .muted,
+body.dynamic-daydrift-theme #right-panel small,
+body.dynamic-daydrift-theme .sidebar-shell .text-muted,
+body.dynamic-daydrift-theme .sidebar-shell .muted,
+body.dynamic-daydrift-theme .sidebar-shell small,
+body.dynamic-daydrift-theme #input-section .text-muted,
+body.dynamic-daydrift-theme #input-section .muted,
+body.dynamic-daydrift-theme #input-section small {
   color: var(--color-frame-text-muted, var(--color-text-muted)) !important;
 }
-body.dynamic-circadian-theme .text-muted,
-body.dynamic-circadian-theme .muted,
-body.dynamic-circadian-theme small {
+body.dynamic-daydrift-theme .text-muted,
+body.dynamic-daydrift-theme .muted,
+body.dynamic-daydrift-theme small {
   color: var(--color-text-muted) !important;
 }
 
 /* Welcome screen action card icons — inherit text color, not --color-primary */
-body.dynamic-circadian-theme .welcome-action-icon {
+body.dynamic-daydrift-theme .welcome-action-icon {
   color: var(--color-text) !important;
 }
 
@@ -385,36 +385,36 @@ body.dynamic-circadian-theme .welcome-action-icon {
 -------------------------------------------------------------------------- */
 
 /* Chat-area accent/primary: use the chat-optimized variants. */
-body.dynamic-circadian-theme #chat-history a,
-body.dynamic-circadian-theme #chat-history .process-step-header {
+body.dynamic-daydrift-theme #chat-history a,
+body.dynamic-daydrift-theme #chat-history .process-step-header {
   color: var(--color-chat-accent) !important;
 }
-body.dynamic-circadian-theme #chat-history a:hover {
+body.dynamic-daydrift-theme #chat-history a:hover {
   text-decoration-color: var(--color-chat-accent);
 }
 
 /* Panel error text: use the panel-optimized variant. */
-body.dynamic-circadian-theme #left-panel .error-text,
-body.dynamic-circadian-theme #left-panel .text-error,
-body.dynamic-circadian-theme #right-panel .error-text,
-body.dynamic-circadian-theme #right-panel .text-error,
-body.dynamic-circadian-theme .sidebar-shell .error-text,
-body.dynamic-circadian-theme .sidebar-shell .text-error {
+body.dynamic-daydrift-theme #left-panel .error-text,
+body.dynamic-daydrift-theme #left-panel .text-error,
+body.dynamic-daydrift-theme #right-panel .error-text,
+body.dynamic-daydrift-theme #right-panel .text-error,
+body.dynamic-daydrift-theme .sidebar-shell .error-text,
+body.dynamic-daydrift-theme .sidebar-shell .text-error {
   color: var(--color-error-panel) !important;
 }
 
 /* Plugin list directory path — lighten from --color-text-muted but not full white */
-body.dynamic-circadian-theme .plugin-path {
+body.dynamic-daydrift-theme .plugin-path {
   color: color-mix(in srgb, var(--color-text) 55%, var(--color-text-muted)) !important;
 }
 
 /* Settings modal nav icons — keep icons on the live accent while text stays neutral. */
-body.dynamic-circadian-theme .settings-tab .material-symbols-outlined,
-body.dynamic-circadian-theme .settings-section-link .material-symbols-outlined {
+body.dynamic-daydrift-theme .settings-tab .material-symbols-outlined,
+body.dynamic-daydrift-theme .settings-section-link .material-symbols-outlined {
   color: var(--color-accent) !important;
 }
-body.dynamic-circadian-theme .settings-tab.active .material-symbols-outlined,
-body.dynamic-circadian-theme .settings-section-link.active .material-symbols-outlined {
+body.dynamic-daydrift-theme .settings-tab.active .material-symbols-outlined,
+body.dynamic-daydrift-theme .settings-section-link.active .material-symbols-outlined {
   color: var(--color-accent) !important;
 }
 
@@ -426,131 +426,131 @@ body.dynamic-circadian-theme .settings-section-link.active .material-symbols-out
    -------------------------------------------------------------------------- */
 
 /* Modal container — lift above page background */
-body.dynamic-circadian-theme .modal-inner.settings-modal {
+body.dynamic-daydrift-theme .modal-inner.settings-modal {
   background: color-mix(in srgb, var(--color-panel) 82%, var(--color-chat-background) 18%) !important;
   border: 1px solid color-mix(in srgb, var(--color-border) 60%, var(--color-chat-background) 40%);
 }
 
 /* Modal content area — lighter than the modal shell */
-body.dynamic-circadian-theme .settings-content {
+body.dynamic-daydrift-theme .settings-content {
   background: color-mix(in srgb, var(--color-panel) 72%, var(--color-chat-background) 28%) !important;
 }
 
 /* Settings nav sidebar — slightly lifted from the content */
-body.dynamic-circadian-theme .settings-nav-group,
-body.dynamic-circadian-theme .settings-nav-group * {
+body.dynamic-daydrift-theme .settings-nav-group,
+body.dynamic-daydrift-theme .settings-nav-group * {
   color: var(--color-frame-text) !important;
 }
-body.dynamic-circadian-theme .settings-nav-group-active {
+body.dynamic-daydrift-theme .settings-nav-group-active {
   background: color-mix(in srgb, var(--color-frame-text) 8%, var(--color-panel)) !important;
 }
 
 /* Form inputs — make them pop against the lifted surfaces */
-body.dynamic-circadian-theme .modal-inner.settings-modal input[type="text"],
-body.dynamic-circadian-theme .modal-inner.settings-modal input[type="password"],
-body.dynamic-circadian-theme .modal-inner.settings-modal input[type="number"],
-body.dynamic-circadian-theme .modal-inner.settings-modal textarea,
-body.dynamic-circadian-theme .modal-inner.settings-modal select {
+body.dynamic-daydrift-theme .modal-inner.settings-modal input[type="text"],
+body.dynamic-daydrift-theme .modal-inner.settings-modal input[type="password"],
+body.dynamic-daydrift-theme .modal-inner.settings-modal input[type="number"],
+body.dynamic-daydrift-theme .modal-inner.settings-modal textarea,
+body.dynamic-daydrift-theme .modal-inner.settings-modal select {
   background: color-mix(in srgb, var(--color-panel) 60%, var(--color-chat-background) 40%) !important;
   border: 1px solid var(--color-border) !important;
   color: var(--color-chat-text) !important;
 }
-body.dynamic-circadian-theme .modal-inner.settings-modal input:focus,
-body.dynamic-circadian-theme .modal-inner.settings-modal textarea:focus,
-body.dynamic-circadian-theme .modal-inner.settings-modal select:focus {
+body.dynamic-daydrift-theme .modal-inner.settings-modal input:focus,
+body.dynamic-daydrift-theme .modal-inner.settings-modal textarea:focus,
+body.dynamic-daydrift-theme .modal-inner.settings-modal select:focus {
   border-color: var(--color-accent) !important;
   outline: none;
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 25%, transparent);
 }
 
 /* Field labels — readable against lifted backgrounds */
-body.dynamic-circadian-theme .modal-inner.settings-modal .field-title {
+body.dynamic-daydrift-theme .modal-inner.settings-modal .field-title {
   color: var(--color-frame-text) !important;
 }
-body.dynamic-circadian-theme .modal-inner.settings-modal .field-description {
+body.dynamic-daydrift-theme .modal-inner.settings-modal .field-description {
   color: var(--color-text-muted) !important;
 }
 
 /* Settings modal header */
-body.dynamic-circadian-theme .modal-inner.settings-modal .modal-header {
+body.dynamic-daydrift-theme .modal-inner.settings-modal .modal-header {
   border-bottom-color: var(--color-border) !important;
 }
 
 /* Settings advanced toggle buttons */
-body.dynamic-circadian-theme .settings-advanced-toggle {
+body.dynamic-daydrift-theme .settings-advanced-toggle {
   color: var(--color-accent) !important;
 }
 
 /* Update cards inside settings */
-body.dynamic-circadian-theme .settings-update-card {
+body.dynamic-daydrift-theme .settings-update-card {
   background: color-mix(in srgb, var(--color-panel) 65%, var(--color-chat-background) 35%) !important;
   border-color: var(--color-border) !important;
 }
 
 /* --------------------------------------------------------------------------
    E. SUBTLE ACCENT TOUCHES
-   Small pops of colour that shift with the circadian phase.
+   Small pops of colour that shift with the daydrift phase.
    -------------------------------------------------------------------------- */
 
 /* Selection / highlight — uses accent for a soft in-text pop */
-body.dynamic-circadian-theme ::selection {
+body.dynamic-daydrift-theme ::selection {
   background: color-mix(in srgb, var(--color-accent) 28%, transparent);
   color: inherit;
 }
 
 /* Focus rings — gentle accent glow on interactive elements */
-body.dynamic-circadian-theme input:focus,
-body.dynamic-circadian-theme textarea:focus,
-body.dynamic-circadian-theme select:focus,
-body.dynamic-circadian-theme button:focus-visible,
-body.dynamic-circadian-theme a:focus-visible {
+body.dynamic-daydrift-theme input:focus,
+body.dynamic-daydrift-theme textarea:focus,
+body.dynamic-daydrift-theme select:focus,
+body.dynamic-daydrift-theme button:focus-visible,
+body.dynamic-daydrift-theme a:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--color-accent) 75%, transparent);
   outline-offset: 2px;
 }
 
 /* Sidebar hover — subtle highlight sweep on chat list items */
-body.dynamic-circadian-theme .chat-item:hover,
-body.dynamic-circadian-theme .sidebar-item:hover,
-body.dynamic-circadian-theme .nav-item:hover {
+body.dynamic-daydrift-theme .chat-item:hover,
+body.dynamic-daydrift-theme .sidebar-item:hover,
+body.dynamic-daydrift-theme .nav-item:hover {
   background: color-mix(in srgb, var(--color-accent) 8%, transparent);
 }
 
 /* Sidebar active/selected item — slightly stronger accent tint */
-body.dynamic-circadian-theme .chat-item.active,
-body.dynamic-circadian-theme .sidebar-item.active,
-body.dynamic-circadian-theme .nav-item.active {
+body.dynamic-daydrift-theme .chat-item.active,
+body.dynamic-daydrift-theme .sidebar-item.active,
+body.dynamic-daydrift-theme .nav-item.active {
   background: color-mix(in srgb, var(--color-accent) 14%, transparent);
 }
 
 /* Links in chat — accent-tinted with subtle underline */
-body.dynamic-circadian-theme #chat-history a {
+body.dynamic-daydrift-theme #chat-history a {
   color: color-mix(in srgb, var(--color-accent) 75%, var(--color-chat-text)) !important;
   text-decoration-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
   text-underline-offset: 2px;
 }
-body.dynamic-circadian-theme #chat-history a:hover {
+body.dynamic-daydrift-theme #chat-history a:hover {
   text-decoration-color: var(--color-accent);
 }
 
 /* Code blocks — thin accent left-border */
-body.dynamic-circadian-theme #chat-history pre {
+body.dynamic-daydrift-theme #chat-history pre {
   border-left: 3px solid color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
 }
 
 /* Scrollbar — thin accent-tinted track for sidebars and chat */
-body.dynamic-circadian-theme #left-panel ::-webkit-scrollbar-thumb,
-body.dynamic-circadian-theme #right-panel ::-webkit-scrollbar-thumb,
-body.dynamic-circadian-theme #chat-history ::-webkit-scrollbar-thumb {
+body.dynamic-daydrift-theme #left-panel ::-webkit-scrollbar-thumb,
+body.dynamic-daydrift-theme #right-panel ::-webkit-scrollbar-thumb,
+body.dynamic-daydrift-theme #chat-history ::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--color-accent) 30%, var(--color-border));
 }
-body.dynamic-circadian-theme #left-panel ::-webkit-scrollbar-thumb:hover,
-body.dynamic-circadian-theme #right-panel ::-webkit-scrollbar-thumb:hover,
-body.dynamic-circadian-theme #chat-history ::-webkit-scrollbar-thumb:hover {
+body.dynamic-daydrift-theme #left-panel ::-webkit-scrollbar-thumb:hover,
+body.dynamic-daydrift-theme #right-panel ::-webkit-scrollbar-thumb:hover,
+body.dynamic-daydrift-theme #chat-history ::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--color-accent) 50%, var(--color-border));
 }
 
 /* Horizontal dividers — faint accent tint */
-body.dynamic-circadian-theme hr {
+body.dynamic-daydrift-theme hr {
   border-color: color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
 }
 
@@ -561,13 +561,13 @@ body.dynamic-circadian-theme hr {
    -------------------------------------------------------------------------- */
 
 /* Hide the dark-mode toggle (plugin owns dark/light mode, toggle is redundant) */
-body.dynamic-circadian-theme .dynamic-circadian-hide-dark-toggle {
+body.dynamic-daydrift-theme .dynamic-daydrift-hide-dark-toggle {
   display: none !important;
 }
 
 /* Preview mode badge: shows current phase + % completion */
-body.dynamic-circadian-theme[data-circadian-preview="true"]::after {
-  content: attr(data-circadian-phase-display);
+body.dynamic-daydrift-theme[data-daydrift-preview="true"]::after {
+  content: attr(data-daydrift-phase-display);
   position: fixed;
   right: 1rem;
   bottom: 1rem;
@@ -589,60 +589,60 @@ body.dynamic-circadian-theme[data-circadian-preview="true"]::after {
    ========================================================================== */
 
 /* Force sidebar icons (i / svg) to light up with the dynamic accent color */
-body.dynamic-circadian-theme .sidebar-shell .sidebar-item i,
-body.dynamic-circadian-theme .sidebar-shell .sidebar-item svg,
-body.dynamic-circadian-theme .sidebar-shell .nav-item i,
-body.dynamic-circadian-theme .sidebar-shell .nav-item svg,
-body.dynamic-circadian-theme #left-panel .sidebar-item i,
-body.dynamic-circadian-theme #left-panel .sidebar-item svg {
+body.dynamic-daydrift-theme .sidebar-shell .sidebar-item i,
+body.dynamic-daydrift-theme .sidebar-shell .sidebar-item svg,
+body.dynamic-daydrift-theme .sidebar-shell .nav-item i,
+body.dynamic-daydrift-theme .sidebar-shell .nav-item svg,
+body.dynamic-daydrift-theme #left-panel .sidebar-item i,
+body.dynamic-daydrift-theme #left-panel .sidebar-item svg {
   color: var(--color-accent) !important;
   fill: var(--color-accent) !important;
   transition: color 1.2s ease, filter 1.2s ease, transform 0.2s;
 }
 
 /* Hover effect: make icons expand slightly and glow */
-body.dynamic-circadian-theme .sidebar-item:hover i,
-body.dynamic-circadian-theme .sidebar-item:hover svg,
-body.dynamic-circadian-theme .nav-item:hover i,
-body.dynamic-circadian-theme .nav-item:hover svg {
+body.dynamic-daydrift-theme .sidebar-item:hover i,
+body.dynamic-daydrift-theme .sidebar-item:hover svg,
+body.dynamic-daydrift-theme .nav-item:hover i,
+body.dynamic-daydrift-theme .nav-item:hover svg {
   transform: scale(1.08);
   filter: drop-shadow(0 0 4px color-mix(in srgb, var(--color-accent) 70%, transparent));
 }
 
 /* Active indicators: neon left border + glowing inner shadow on sidebar buttons */
-body.dynamic-circadian-theme .sidebar-shell .sidebar-item.active,
-body.dynamic-circadian-theme .sidebar-shell .nav-item.active,
-body.dynamic-circadian-theme #left-panel .sidebar-item.active,
-body.dynamic-circadian-theme #left-panel .nav-item.active,
-body.dynamic-circadian-theme .chat-item.active {
+body.dynamic-daydrift-theme .sidebar-shell .sidebar-item.active,
+body.dynamic-daydrift-theme .sidebar-shell .nav-item.active,
+body.dynamic-daydrift-theme #left-panel .sidebar-item.active,
+body.dynamic-daydrift-theme #left-panel .nav-item.active,
+body.dynamic-daydrift-theme .chat-item.active {
   border-left: 3px solid var(--color-accent) !important;
   background: color-mix(in srgb, var(--color-accent) 15%, transparent) !important;
   box-shadow: inset 4px 0 10px -2px color-mix(in srgb, var(--color-accent) 20%, transparent) !important;
 }
 
 /* Apply drop shadow glow to sidebar icons during dark/night phases for a neon illuminated look */
-body.dynamic-circadian-theme[data-circadian-phase="midnight"] .sidebar-item i,
-body.dynamic-circadian-theme[data-circadian-phase="deep_night"] .sidebar-item i,
-body.dynamic-circadian-theme[data-circadian-phase="predawn"] .sidebar-item i,
-body.dynamic-circadian-theme[data-circadian-phase="dusk"] .sidebar-item i,
-body.dynamic-circadian-theme[data-circadian-phase="late_evening"] .sidebar-item i,
-body.dynamic-circadian-theme[data-circadian-phase="midnight"] .sidebar-item svg,
-body.dynamic-circadian-theme[data-circadian-phase="deep_night"] .sidebar-item svg,
-body.dynamic-circadian-theme[data-circadian-phase="predawn"] .sidebar-item svg,
-body.dynamic-circadian-theme[data-circadian-phase="dusk"] .sidebar-item svg,
-body.dynamic-circadian-theme[data-circadian-phase="late_evening"] .sidebar-item svg {
+body.dynamic-daydrift-theme[data-daydrift-phase="midnight"] .sidebar-item i,
+body.dynamic-daydrift-theme[data-daydrift-phase="deep_night"] .sidebar-item i,
+body.dynamic-daydrift-theme[data-daydrift-phase="predawn"] .sidebar-item i,
+body.dynamic-daydrift-theme[data-daydrift-phase="dusk"] .sidebar-item i,
+body.dynamic-daydrift-theme[data-daydrift-phase="late_evening"] .sidebar-item i,
+body.dynamic-daydrift-theme[data-daydrift-phase="midnight"] .sidebar-item svg,
+body.dynamic-daydrift-theme[data-daydrift-phase="deep_night"] .sidebar-item svg,
+body.dynamic-daydrift-theme[data-daydrift-phase="predawn"] .sidebar-item svg,
+body.dynamic-daydrift-theme[data-daydrift-phase="dusk"] .sidebar-item svg,
+body.dynamic-daydrift-theme[data-daydrift-phase="late_evening"] .sidebar-item svg {
   filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-accent) 75%, transparent));
 }
 
 /* Dynamic tooltips on hover */
-body.dynamic-circadian-theme .tooltip .tooltip-inner {
+body.dynamic-daydrift-theme .tooltip .tooltip-inner {
   background-color: var(--color-panel) !important;
   color: var(--color-accent) !important;
   border: 1px solid var(--color-accent) !important;
   box-shadow: 0 4px 15px -2px rgba(0,0,0,0.4), 0 0 8px var(--color-accent) !important;
 }
 
-body.dynamic-circadian-theme .tooltip .tooltip-arrow::before {
+body.dynamic-daydrift-theme .tooltip .tooltip-arrow::before {
   border-top-color: var(--color-accent) !important;
   border-bottom-color: var(--color-accent) !important;
   border-left-color: var(--color-accent) !important;
@@ -654,24 +654,24 @@ body.dynamic-circadian-theme .tooltip .tooltip-arrow::before {
    ========================================================================== */
 
 /* Force the Agent Zero sidebar logo to light up with the dynamic accent color */
-body.dynamic-circadian-theme #a0-logo,
-body.dynamic-circadian-theme #a0-logo-collapsed {
+body.dynamic-daydrift-theme #a0-logo,
+body.dynamic-daydrift-theme #a0-logo-collapsed {
   background-color: var(--color-accent) !important;
   transition: background-color 1.2s ease, filter 1.2s ease, opacity 0.3s ease !important;
 }
 
 /* Apply glowing neon drop shadow to the logo during golden-hour and dark/night phases */
-body.dynamic-circadian-theme[data-circadian-phase="golden_hour"] #a0-logo,
-body.dynamic-circadian-theme[data-circadian-phase="midnight"] #a0-logo,
-body.dynamic-circadian-theme[data-circadian-phase="deep_night"] #a0-logo,
-body.dynamic-circadian-theme[data-circadian-phase="predawn"] #a0-logo,
-body.dynamic-circadian-theme[data-circadian-phase="dusk"] #a0-logo,
-body.dynamic-circadian-theme[data-circadian-phase="late_evening"] #a0-logo,
-body.dynamic-circadian-theme[data-circadian-phase="golden_hour"] #a0-logo-collapsed,
-body.dynamic-circadian-theme[data-circadian-phase="midnight"] #a0-logo-collapsed,
-body.dynamic-circadian-theme[data-circadian-phase="deep_night"] #a0-logo-collapsed,
-body.dynamic-circadian-theme[data-circadian-phase="predawn"] #a0-logo-collapsed,
-body.dynamic-circadian-theme[data-circadian-phase="dusk"] #a0-logo-collapsed,
-body.dynamic-circadian-theme[data-circadian-phase="late_evening"] #a0-logo-collapsed {
+body.dynamic-daydrift-theme[data-daydrift-phase="golden_hour"] #a0-logo,
+body.dynamic-daydrift-theme[data-daydrift-phase="midnight"] #a0-logo,
+body.dynamic-daydrift-theme[data-daydrift-phase="deep_night"] #a0-logo,
+body.dynamic-daydrift-theme[data-daydrift-phase="predawn"] #a0-logo,
+body.dynamic-daydrift-theme[data-daydrift-phase="dusk"] #a0-logo,
+body.dynamic-daydrift-theme[data-daydrift-phase="late_evening"] #a0-logo,
+body.dynamic-daydrift-theme[data-daydrift-phase="golden_hour"] #a0-logo-collapsed,
+body.dynamic-daydrift-theme[data-daydrift-phase="midnight"] #a0-logo-collapsed,
+body.dynamic-daydrift-theme[data-daydrift-phase="deep_night"] #a0-logo-collapsed,
+body.dynamic-daydrift-theme[data-daydrift-phase="predawn"] #a0-logo-collapsed,
+body.dynamic-daydrift-theme[data-daydrift-phase="dusk"] #a0-logo-collapsed,
+body.dynamic-daydrift-theme[data-daydrift-phase="late_evening"] #a0-logo-collapsed {
   filter: drop-shadow(0 0 6px var(--color-accent)) !important;
 }

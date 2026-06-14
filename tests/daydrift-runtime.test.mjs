@@ -91,22 +91,22 @@ test('runtime injects stylesheet, applies palette variables, owns dark mode, and
     initDaydriftTheme('file:///a0/usr/plugins/daydrift_theme_engine/');
 
     assert.equal(fake.links.length, 1);
-    assert.equal(fake.links[0].id, 'dynamic-circadian-theme-css');
+    assert.equal(fake.links[0].id, 'dynamic-daydrift-theme-css');
     assert.match(fake.links[0].href, /daydrift-theme\.css(?:\?v=\d+\.\d+\.\d+)?$/);
     assert.equal(storage.get('darkMode'), 'true');
     assert.equal(storage.get('daydriftTheme.previousDarkMode'), 'false');
     assert.equal(fake.document.body.classList.contains('dark-mode'), true);
-    assert.equal(fake.document.body.classList.contains('dynamic-circadian-theme'), true);
+    assert.equal(fake.document.body.classList.contains('dynamic-daydrift-theme'), true);
     for (const key of ['--color-background', '--color-accent', '--color-chat-text', '--color-error-text', '--color-warning-text', '--color-composer-text', '--color-composer-text-muted']) {
       assert.match(fake.rootStyle.get(key), /^#[0-9a-f]{6}$/i, key);
     }
-    assert.equal(fake.rowDark.classList.contains('dynamic-circadian-hide-dark-toggle'), true);
+    assert.equal(fake.rowDark.classList.contains('dynamic-daydrift-hide-dark-toggle'), true);
     assert.equal(fake.rowDark['aria-hidden'], 'true');
-    assert.equal(fake.rowSpeech.classList.contains('dynamic-circadian-hide-dark-toggle'), false);
+    assert.equal(fake.rowSpeech.classList.contains('dynamic-daydrift-hide-dark-toggle'), false);
     assert.ok(globalThis.window.DaydriftTheme.phase);
     assert.ok(globalThis.window.DaydriftTheme.palette);
     // Phase depends on current time, so verify it's a valid non-empty string
-    assert.ok(fake.document.body.dataset.circadianPhase.length > 0);
+    assert.ok(fake.document.body.dataset.daydriftPhase.length > 0);
   } finally {
     globalThis.window = original.window;
     globalThis.document = original.document;

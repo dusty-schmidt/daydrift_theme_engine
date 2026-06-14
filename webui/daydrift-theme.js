@@ -9,7 +9,7 @@ import {
   MINUTES_PER_DAY,
 } from './daydrift-engine.mjs';
 
-const CSS_ID = 'dynamic-circadian-theme-css';
+const CSS_ID = 'dynamic-daydrift-theme-css';
 const UPDATE_MS = 30_000;
 
 // ── Composer text transition boundaries (minutes since midnight) ──────────
@@ -139,8 +139,8 @@ function applyPalette(state) {
     '--color-chat-primary': state.palette.chatPrimary || state.palette.primary,
     '--color-chat-highlight': state.palette.chatHighlight || state.palette.highlight,
     '--color-error-panel': state.palette.errorPanel || state.palette.errorText,
-    '--dynamic-circadian-phase': `'${state.phase.current.name}`,
-    '--dynamic-circadian-timezone': `'${state.timezone}'`
+    '--dynamic-daydrift-phase': `'${state.phase.current.name}`,
+    '--dynamic-daydrift-timezone': `'${state.timezone}'`
   };
   for (const [key, value] of Object.entries(map)) root.style.setProperty(key, value);
 
@@ -149,11 +149,11 @@ function applyPalette(state) {
     root.style.setProperty(`--color-${cssKey}`, value);
   }
 
-  document.body.classList.add('dynamic-circadian-theme');
+  document.body.classList.add('dynamic-daydrift-theme');
   const pct = Math.round(state.phase.t * 100);
   const phaseName = state.phase.current.name.replace(/_/g, ' ');
-  document.body.dataset.circadianPhase = state.phase.current.name;
-  document.body.dataset.circadianPhaseDisplay = `${phaseName} · ${pct}%`;
+  document.body.dataset.daydriftPhase = state.phase.current.name;
+  document.body.dataset.daydriftPhaseDisplay = `${phaseName} · ${pct}%`;
 
   window.DaydriftTheme = Object.freeze({
     phase: state.phase.current.name,
@@ -170,7 +170,7 @@ function forceThemeOwnerMode() {
     localStorage.setItem('darkMode', 'true');
   } catch {}
   document.body.classList.remove('light-mode');
-  document.body.classList.add('dark-mode', 'dynamic-circadian-theme');
+  document.body.classList.add('dark-mode', 'dynamic-daydrift-theme');
 }
 
 function startDarkToggleHider() {
@@ -183,7 +183,7 @@ function startDarkToggleHider() {
     for (const li of list.querySelectorAll('li')) {
       const label = li.querySelector('.switch-label, span');
       if (label && label.textContent.trim().toLowerCase() === 'dark mode') {
-        li.classList.add('dynamic-circadian-hide-dark-toggle');
+        li.classList.add('dynamic-daydrift-hide-dark-toggle');
         li.setAttribute('aria-hidden', 'true');
         found = true;
       }
