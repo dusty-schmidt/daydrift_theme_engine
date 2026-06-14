@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {
   DEFAULT_PHASES,
   PALETTE_KEYS,
+  WCAG_AA_NORMAL_TEXT,
+  WCAG_AA_LARGE_TEXT,
   buildDailyDrift,
   clampMinuteOfDay,
   findPhaseWindow,
@@ -239,11 +241,11 @@ test('palette text maintains WCAG contrast against managed backgrounds', () => {
   for (const minute of [0, 120, 270, 330, 390, 450, 570, 720, 840, 1020, 1110, 1200, 1320, 1439]) {
     for (const drift of drifts) {
       const palette = interpolatePalette(DEFAULT_PHASES, minute, drift);
-      assert.ok(contrastRatio(palette.backgroundText, palette.background) >= 4.5, `backgroundText/background contrast failed at ${minute}`);
-      assert.ok(contrastRatio(palette.messageText, palette.messageBg) >= 4.5, `messageText/messageBg contrast failed at ${minute}`);
-      assert.ok(contrastRatio(palette.frameText, palette.panel) >= 4.5, `frameText/panel contrast failed at ${minute}`);
-      assert.ok(contrastRatio(palette.windowText, palette.chatBackground) >= 4.5, `windowText/chatBackground contrast failed at ${minute}`);
-      assert.ok(contrastRatio(palette.textMuted, palette.chatBackground) >= 3.0, `muted/chatBackground contrast failed at ${minute}`);
+      assert.ok(contrastRatio(palette.backgroundText, palette.background) >= WCAG_AA_NORMAL_TEXT, `backgroundText/background contrast failed at ${minute}`);
+      assert.ok(contrastRatio(palette.messageText, palette.messageBg) >= WCAG_AA_NORMAL_TEXT, `messageText/messageBg contrast failed at ${minute}`);
+      assert.ok(contrastRatio(palette.frameText, palette.panel) >= WCAG_AA_NORMAL_TEXT, `frameText/panel contrast failed at ${minute}`);
+      assert.ok(contrastRatio(palette.windowText, palette.chatBackground) >= WCAG_AA_NORMAL_TEXT, `windowText/chatBackground contrast failed at ${minute}`);
+      assert.ok(contrastRatio(palette.textMuted, palette.chatBackground) >= WCAG_AA_LARGE_TEXT, `muted/chatBackground contrast failed at ${minute}`);
     }
   }
 });

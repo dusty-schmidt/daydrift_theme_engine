@@ -5,11 +5,24 @@ import {
   findPhaseWindow,
   interpolatePalette,
   makePaletteForDate,
+  smoothstep,
+  MINUTES_PER_DAY,
 } from './circadian-engine.mjs';
 
 const CSS_ID = 'dynamic-circadian-theme-css';
 const UPDATE_MS = 30_000;
+
+// ── Composer text transition boundaries (minutes since midnight) ──────────
+const COMPOSER_FADE_IN = 480;            // 8:00 AM
+const COMPOSER_DARK_START = 600;         // 10:00 AM
+const COMPOSER_DARK_END = 960;           // 4:00 PM
+const COMPOSER_FADE_OUT = 1080;          // 6:00 PM
+const COMPOSER_TRANSITION_MINUTES = 120; // duration of each fade transition
 const PREVIOUS_DARK_MODE_KEY = 'daydriftTheme.previousDarkMode';
+
+// ── Composer dark text fallback colors ───────────────────────────────────────
+const COMPOSER_DARK_TEXT = '#27292b';
+const COMPOSER_DARK_TEXT_MUTED = '#44494b';
 let intervalId = null;
 let observer = null;
 
@@ -75,13 +88,8 @@ function startThemeLoop() {
   intervalId = window.setInterval(apply, UPDATE_MS);
 }
 
-function smoothComposerMix(t) {
-  const x = Math.max(0, Math.min(1, t));
-  return x * x * (3 - 2 * x);
-}
-
 function mixHexColor(a, b, t) {
-  const x = smoothComposerMix(t);
+  const x = smoothstep(t);
   const left = parseHexColor(a);
   const right = parseHexColor(b);
   if (!left || !right) return x < 0.5 ? a : b;
@@ -96,18 +104,18 @@ function parseHexColor(hex) {
   return [0, 2, 4].map((i) => Number.parseInt(value.slice(i, i + 2), 16));
 }
 
-function composerTextForMinute(minuteOfDay, frameText, darkText = '#27292b') {
-  const minute = ((minuteOfDay % 1440) + 1440) % 1440;
-  if (minute >= 600 && minute <= 960) return darkText;
-  if (minute >= 480 && minute < 600) return mixHexColor(frameText, darkText, (minute - 480) / 120);
-  if (minute > 960 && minute <= 1080) return mixHexColor(darkText, frameText, (minute - 960) / 120);
+function composerTextForMinute(minuteOfDay, frameText, darkText = COMPOSER_DARK_TEXT) {
+  const minute = ((minuteOfDay % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
+  if (minute >= COMPOSER_DARK_START && minute <= COMPOSER_DARK_END) return darkText;
+  if (minute >= COMPOSER_FADE_IN && minute < COMPOSER_DARK_START) return mixHexColor(frameText, darkText, (minute - COMPOSER_FADE_IN) / COMPOSER_TRANSITION_MINUTES);
+  if (minute > COMPOSER_DARK_END && minute <= COMPOSER_FADE_OUT) return mixHexColor(darkText, frameText, (minute - COMPOSER_DARK_END) / COMPOSER_TRANSITION_MINUTES);
   return frameText;
 }
 
 function applyPalette(state) {
   const root = document.documentElement;
   const composerText = composerTextForMinute(state.minuteOfDay, state.palette.frameText || state.palette.text);
-  const composerTextMuted = composerTextForMinute(state.minuteOfDay, state.palette.frameTextMuted || state.palette.textMuted, '#44494b');
+  const composerTextMuted = composerTextForMinute(state.minuteOfDay, state.palette.frameTextMuted || state.palette.textMuted, COMPOSER_DARK_TEXT_MUTED);
   const map = {
     '--color-background': state.palette.background,
     '--color-text': state.palette.text,
