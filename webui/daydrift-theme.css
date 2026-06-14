@@ -234,8 +234,6 @@ body.dynamic-daydrift-theme .message-user,
 body.dynamic-daydrift-theme .message-assistant {
   background: color-mix(in srgb, var(--color-message-bg) 40%, transparent) !important;
   border-radius: 6px;
-  padding: 2px 8px;
-  margin: 2px 0;
 }
 
 /* Message bubble text */
