@@ -54,9 +54,15 @@ test('buildDailyDrift is stable for a date/timezone and changes across days', ()
   assert.ok(Math.abs(a.windowHue) <= 3.4);
   assert.ok(Math.abs(a.windowSaturation) <= 0.026);
   assert.ok(Math.abs(a.windowLightness) <= 0.018);
-  assert.ok(Math.abs(a.accentHue) <= 14);
-  assert.ok(Math.abs(a.accentSaturation) <= 0.075);
-  assert.ok(Math.abs(a.accentLightness) <= 0.035);
+  assert.ok(Math.abs(a.accentLinkHue) <= 14);
+  assert.ok(Math.abs(a.accentLinkSaturation) <= 0.075);
+  assert.ok(Math.abs(a.accentLinkLightness) <= 0.035);
+  assert.ok(Math.abs(a.accentFillHue) <= 11);
+  assert.ok(Math.abs(a.accentFillSaturation) <= 0.065);
+  assert.ok(Math.abs(a.accentFillLightness) <= 0.030);
+  assert.ok(Math.abs(a.accentGlowHue) <= 9);
+  assert.ok(Math.abs(a.accentGlowSaturation) <= 0.080);
+  assert.ok(Math.abs(a.accentGlowLightness) <= 0.040);
   assert.ok(Math.abs(a.accentBias) <= 7);
 });
 

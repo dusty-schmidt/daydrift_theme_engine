@@ -39,34 +39,27 @@ export default function initDaydriftTheme(pluginBaseUrl = window.__daydriftTheme
 }
 
 function handleCleanupMarker() {
-  try {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/usr/plugins/.daydrift_cleanup', false);
-    xhr.send();
-    if (xhr.status === 200) {
-      try {
-        const marker = JSON.parse(xhr.responseText);
-        if (marker.action === 'restore_previous_darkmode') {
-          const previous = localStorage.getItem('daydriftTheme.previousDarkMode');
-          if (previous !== null) {
-            if (previous === '' || previous === null) {
-              localStorage.removeItem('darkMode');
-            } else {
-              localStorage.setItem('darkMode', previous);
-            }
-          } else {
-            localStorage.removeItem('darkMode');
-          }
-          for (const key of (marker.keys || [])) {
-            localStorage.removeItem(key);
-          }
-          fetch('/usr/plugins/.daydrift_cleanup', { method: 'DELETE' }).catch(() => {});
+  // Non-blocking: fetch the marker asynchronously so we don't stall page load.
+  fetch('/usr/plugins/.daydrift_cleanup')
+    .then(r => r.ok ? r.json() : null)
+    .then(marker => {
+      if (!marker || marker.action !== 'restore_previous_darkmode') return;
+      const previous = localStorage.getItem('daydriftTheme.previousDarkMode');
+      if (previous !== null) {
+        if (previous === '' || previous === null) {
+          localStorage.removeItem('darkMode');
+        } else {
+          localStorage.setItem('darkMode', previous);
         }
-      } catch {}
-    }
-  } catch {
-    // Marker file doesn't exist — normal state
-  }
+      } else {
+        localStorage.removeItem('darkMode');
+      }
+      for (const key of (marker.keys || [])) {
+        localStorage.removeItem(key);
+      }
+      fetch('/usr/plugins/.daydrift_cleanup', { method: 'DELETE' }).catch(() => {});
+    })
+    .catch(() => {}); // Marker file doesn't exist — normal state
 }
 
 function injectStyles(pluginBaseUrl) {

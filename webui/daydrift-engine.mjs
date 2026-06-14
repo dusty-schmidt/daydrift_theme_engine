@@ -12,9 +12,11 @@ export const PALETTE_KEYS = [
 
 // Derived tokens computed in enforceReadableText, not source palette keys.
 // CSS consumers access these from the result object.
+// NOTE: messageText is a source palette key that gets overwritten by
+// enforceReadableText for contrast — it lives in PALETTE_KEYS, not here.
 export const DERIVED_KEYS = [
   'frameText', 'sidebarText', 'windowText', 'chatText', 'backgroundText',
-  'messageText', 'frameTextMuted'
+  'frameTextMuted'
 ];
 
 // ── WCAG accessibility contrast ratios ──────────────────────────────────────
@@ -279,10 +281,6 @@ export function buildDailyDrift(localDate, timezone = 'local') {
     accentGlowHue: round((random() * 2 - 1) * DRIFT_ACCENT_GLOW_BOUNDS.hue, 3),
     accentGlowSaturation: round((random() * 2 - 1) * DRIFT_ACCENT_GLOW_BOUNDS.saturation, 4),
     accentGlowLightness: round((random() * 2 - 1) * DRIFT_ACCENT_GLOW_BOUNDS.lightness, 4),
-    // Legacy channel kept for backward compatibility (averaged blend of the three).
-    accentHue: 0,
-    accentSaturation: 0,
-    accentLightness: 0,
     accentBias: round((random() * 2 - 1) * 7, 3)
   };
 }
@@ -359,22 +357,22 @@ export function interpolatePalette(phases, minuteOfDay, drift = {}) {
         // Links: full base hue + link sub-offset + accentBias
         return {
           hue: (drift.accentBaseHue || 0) + (drift.accentLinkHue || 0) * ACCENT_LINK_HUE_SCALE + (drift.accentBias || 0),
-          saturation: (drift.accentLinkSaturation || 0) || drift.saturation || 0,
-          lightness: (drift.accentLinkLightness || 0) || drift.lightness || 0,
+          saturation: (drift.accentLinkSaturation || 0) || 0,
+          lightness: (drift.accentLinkLightness || 0) || 0,
         };
       } else if (key === 'primary') {
         // Fills: base hue + fill sub-offset, more conservative
         return {
           hue: (drift.accentBaseHue || 0) + (drift.accentFillHue || 0) * ACCENT_FILL_HUE_SCALE,
-          saturation: (drift.accentFillSaturation || 0) || drift.saturation || 0,
-          lightness: (drift.accentFillLightness || 0) || drift.lightness || 0,
+          saturation: (drift.accentFillSaturation || 0) || 0,
+          lightness: (drift.accentFillLightness || 0) || 0,
         };
       } else {
         // 'highlight' → accentGlow: base hue + glow sub-offset, more neutral/saturated
         return {
           hue: (drift.accentBaseHue || 0) + (drift.accentGlowHue || 0) * ACCENT_GLOW_HUE_SCALE,
-          saturation: (drift.accentGlowSaturation || 0) || drift.saturation || 0,
-          lightness: (drift.accentGlowLightness || 0) || drift.lightness || 0,
+          saturation: (drift.accentGlowSaturation || 0) || 0,
+          lightness: (drift.accentGlowLightness || 0) || 0,
         };
       }
     }
@@ -384,32 +382,32 @@ export function interpolatePalette(phases, minuteOfDay, drift = {}) {
       const avgSat = ((drift.accentLinkSaturation || 0) + (drift.accentFillSaturation || 0) + (drift.accentGlowSaturation || 0)) / 3;
       const avgLight = ((drift.accentLinkLightness || 0) + (drift.accentFillLightness || 0) + (drift.accentGlowLightness || 0)) / 3;
       return {
-        hue: (avgHue || drift.hue || 0) * 0.35,
-        saturation: (avgSat || drift.saturation || 0) * 0.35,
-        lightness: (avgLight || drift.lightness || 0) * 0.2,
+        hue: (avgHue || 0) * 0.35,
+        saturation: (avgSat || 0) * 0.35,
+        lightness: (avgLight || 0) * 0.2,
       };
     }
     if (key === 'panel' || key === 'messageBg' || key === 'tableRow' || key === 'input') {
       return {
-        hue: (drift.surfaceHue || drift.hue || 0) + (drift.frameHue || 0),
-        saturation: (drift.surfaceSaturation || drift.saturation || 0) + (drift.frameSaturation || 0),
-        lightness: (drift.surfaceLightness || drift.lightness || 0) + (drift.frameLightness || 0),
+        hue: (drift.surfaceHue || 0) + (drift.frameHue || 0),
+        saturation: (drift.surfaceSaturation || 0) + (drift.frameSaturation || 0),
+        lightness: (drift.surfaceLightness || 0) + (drift.frameLightness || 0),
       };
     }
     if (key === 'chatBackground') {
       return {
-        hue: (drift.surfaceHue || drift.hue || 0) + (drift.windowHue || 0),
-        saturation: (drift.surfaceSaturation || drift.saturation || 0) + (drift.windowSaturation || 0),
-        lightness: (drift.surfaceLightness || drift.lightness || 0) + (drift.windowLightness || 0),
+        hue: (drift.surfaceHue || 0) + (drift.windowHue || 0),
+        saturation: (drift.surfaceSaturation || 0) + (drift.windowSaturation || 0),
+        lightness: (drift.surfaceLightness || 0) + (drift.windowLightness || 0),
       };
     }
     if (statusKeys.has(key)) {
       return { hue: 0, saturation: 0, lightness: 0 };
     }
     return {
-      hue: drift.surfaceHue || drift.hue || 0,
-      saturation: drift.surfaceSaturation || drift.saturation || 0,
-      lightness: drift.surfaceLightness || drift.lightness || 0,
+      hue: drift.surfaceHue || 0,
+      saturation: drift.surfaceSaturation || 0,
+      lightness: drift.surfaceLightness || 0,
     };
   }
 }
