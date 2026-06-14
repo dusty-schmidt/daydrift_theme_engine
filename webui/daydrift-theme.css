@@ -114,6 +114,11 @@ body.dynamic-daydrift-theme .welcome-container {
   background: var(--color-chat-background) !important;
 }
 
+/* DASHBOARD ICONS: Accent-colored icons on the welcome action cards. */
+body.dynamic-daydrift-theme .welcome-action-icon {
+  color: var(--color-accent) !important;
+}
+
 
 /* --------------------------------------------------------------------------
    C. BODY GRADIENT
@@ -231,19 +236,20 @@ body.dynamic-daydrift-theme #chat-history .terminal-output * {
 
 /* Message bubble containers */
 /* User messages: subtle neutral tint from phase palette */
-body.dynamic-daydrift-theme .message-user {
+body.dynamic-daydrift-theme .message-user .message-text {
   background: color-mix(in srgb, var(--color-message-bg) 40%, transparent) !important;
   border-radius: 6px;
 }
-/* Assistant messages: faint accent tint that shifts with the phase */
-body.dynamic-daydrift-theme .message-assistant {
-  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-message-bg) 30%) !important;
+/* Assistant messages: panel background with accent-colored left border */
+body.dynamic-daydrift-theme .message:not(.message-user) .message-body {
+  background: color-mix(in srgb, var(--color-accent) 25%, var(--color-panel) 85%) !important;
   border-radius: 6px;
+  border-left: 3px solid color-mix(in srgb, var(--color-accent) 50%, transparent) !important;
 }
 
 /* Message bubble text */
 body.dynamic-daydrift-theme .message-user *,
-body.dynamic-daydrift-theme .message-assistant *,
+body.dynamic-daydrift-theme .message:not(.message-user) *,
 body.dynamic-daydrift-theme .message-tool * {
   color: var(--color-message-text) !important;
 }
@@ -380,10 +386,8 @@ body.dynamic-daydrift-theme small {
   color: var(--color-text-muted) !important;
 }
 
-/* Welcome screen action card icons — inherit text color, not --color-primary */
-body.dynamic-daydrift-theme .welcome-action-icon {
-  color: var(--color-text) !important;
-}
+/* Welcome screen action card icons — accent color from phase palette */
+/* (styled by rule in Section B: DASHBOARD ICONS) */
 
 /* Cross-surface accent tokens: engine computes chat-specific variants.
    ZONE MAP:
@@ -454,7 +458,7 @@ body.dynamic-daydrift-theme .settings-nav-group * {
   color: var(--color-frame-text) !important;
 }
 body.dynamic-daydrift-theme .settings-nav-group-active {
-  background: color-mix(in srgb, var(--color-frame-text) 8%, var(--color-panel)) !important;
+  background: color-mix(in srgb, var(--color-frame-text) 8%, var(--color-panel) 85%) !important;
 }
 
 /* Form inputs — make them pop against the lifted surfaces */
@@ -524,7 +528,7 @@ body.dynamic-daydrift-theme a:focus-visible {
 body.dynamic-daydrift-theme .chat-item:hover,
 body.dynamic-daydrift-theme .sidebar-item:hover,
 body.dynamic-daydrift-theme .nav-item:hover {
-  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 
 /* Sidebar active/selected item — slightly stronger accent tint */
@@ -628,7 +632,7 @@ body.dynamic-daydrift-theme #left-panel .sidebar-item.active,
 body.dynamic-daydrift-theme #left-panel .nav-item.active,
 body.dynamic-daydrift-theme .chat-item.active {
   border-left: 3px solid var(--color-accent) !important;
-  background: color-mix(in srgb, var(--color-accent) 15%, transparent) !important;
+  background: color-mix(in srgb, var(--color-accent) 25%, transparent) !important;
   box-shadow: inset 4px 0 10px -2px color-mix(in srgb, var(--color-accent) 20%, transparent) !important;
 }
 

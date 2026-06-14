@@ -67,7 +67,7 @@ function injectStyles(pluginBaseUrl) {
   const link = document.createElement('link');
   link.id = CSS_ID;
   link.rel = 'stylesheet';
-  link.href = new URL('webui/daydrift-theme.css?v=1.0.0', pluginBaseUrl).href;
+  link.href = new URL('webui/daydrift-theme.css?v=1.7.0', pluginBaseUrl).href;
   document.head.appendChild(link);
 }
 
@@ -203,3 +203,5 @@ function startDarkToggleHider() {
   const target = document.querySelector('.pref-section') || document.querySelector('#left-sidebar') || document.body;
   observer.observe(target, { childList: true, subtree: true });
 }
+
+
