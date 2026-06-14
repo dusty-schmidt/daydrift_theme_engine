@@ -2,6 +2,8 @@
 
 A zero-configuration Agent Zero WebUI theme that follows your local browser time, drifting through a rich circadian palette across the day with unique, per-user daily variation.
 
+**v1.0.0** — stable, zero-config, ready for the [Community Plugin Index](#community-plugin-index).
+
 ## What it does
 
 - **Circadian Palette:** Transitions continuously through 12 equal-length phases: midnight, deep night, predawn, dawn, sunrise, morning, late morning, solar noon, afternoon, golden hour, dusk, and late evening.
@@ -10,7 +12,7 @@ A zero-configuration Agent Zero WebUI theme that follows your local browser time
 - **Nighttime Accent Glow:** Accent elements become more vibrant at night — saturation and lightness boost on a sine wave peaking at midnight. CSS glow effects (box-shadows) activate during night phases.
 - **Neutral Panel Design:** Sidebar panels are neutral greys during daytime and deep blue-blacks at night. Chat backgrounds get pale tints (sky blue, pale green, warm) during the day.
 - **WCAG Contrast Guarantee:** The engine **automatically enforces** contrast ratios. Accents, borders, and secondary colors are dynamically adjusted to guarantee readability on both dark panels and light daytime chat backgrounds.
-- **Settings Panel:** Timezone override dropdown (grouped by region), brightness slider (darken day phases or brighten night phases), and a one-click 30-second full-cycle preview button.
+- **Zero Configuration:** No settings panel, no manual timezone selection, no sliders. The plugin detects your browser timezone automatically and runs entirely hands-off.
 - **Non-Destructive:** Uses Agent Zero CSS variables instead of editing core WebUI files. Hides the default **Dark mode** toggle in Preferences while active.
 
 ---
@@ -83,32 +85,7 @@ cp -R daydrift_theme_engine /a0/usr/plugins/daydrift_theme_engine
 
 Then refresh Agent Zero or toggle the plugin from the Plugins UI.
 
----
-
-## Settings Panel
-
-Open the plugin settings panel from the Plugins menu. It provides:
-
-- **Timezone override dropdown** — select an IANA timezone (grouped by region) to preview what the theme looks like at that location's local time. Leave as `auto` to use your browser's detected timezone.
-- **Brightness slider** — darken daytime phases or brighten nighttime phases. Range 0 (darkest) to 1 (lightest), default 0.5.
-- **Preview 24h Cycle button** — one-click 30-second full circadian cycle. Runs once and stops automatically. Close the settings menu to watch the chat transform.
-
-## Preview a Full Day Cycle
-
-Click the **Start 30s Preview** button in the settings panel, or use the console:
-
-```js
-window.DaydriftTheme.preview.start(30000, true)   // 30s full-day preview, auto-stop
-window.DaydriftTheme.preview.start(60000)          // 60s preview, continuous loop
-```
-
-Stop preview mode and return to live local time with:
-
-```js
-window.DaydriftTheme.preview.stop()
-```
-
-While preview is running, a small **Circadian preview** badge appears in the lower-right corner of the WebUI showing the current phase and completion percentage.
+The plugin ships with a custom **thumbnail icon** that appears in the WebUI Plugins menu.
 
 ---
 
@@ -119,8 +96,19 @@ While preview is running, a small **Circadian preview** badge appears in the low
 node --test tests/*.test.mjs
 ```
 
+The codebase uses named constants for all numeric thresholds — no magic numbers. Key values (WCAG ratios, composer time boundaries, drift bounds, accent hue scales) are extracted to top-of-file constants for readability.
+
 ### Debugging
-At runtime, the plugin exposes a read-only diagnostic object at `window.DaydriftTheme`. By default it contains the current phase, palette, and last update timestamp. For full diagnostics, set `window.__daydriftThemeDebug = true` before initialization (treat as same-origin debug metadata).
+At runtime, the plugin exposes a read-only diagnostic object at `window.DaydriftTheme`:
+
+```js
+console.log(window.DaydriftTheme);
+// { phase: "morning", palette: { background: "#...", ... }, updatedAt: "2025-..." }
+```
+
+Properties: `phase` (current phase name), `palette` (frozen snapshot of all CSS color tokens), `updatedAt` (ISO timestamp of last theme update).
+
+For full diagnostics, set `window.__daydriftThemeDebug = true` before initialization.
 
 ---
 
@@ -134,13 +122,14 @@ Disable or delete the plugin folder. It does not edit Agent Zero core files, doe
 
 This version approximates circadian phases by local clock time. It intentionally does not request geolocation permissions or call external sunrise/sunset APIs. `always_enabled: false` is intentional in the manifest; community plugins should remain user-toggleable so users can disable or remove the theme without framework-level lock-in.
 
+---
+
 ## Community Plugin Index
 
-This repository is structured with plugin contents at the repository root. Before submitting to the Plugin Index:
+This plugin is structured for direct submission to the [Agent Zero Plugin Index](https://github.com/agent0ai/a0-plugins). The repository is at [github.com/dusty-schmidt/daydrift_theme_engine](https://github.com/dusty-schmidt/daydrift_theme_engine).
 
-1. Push this repository to GitHub.
-2. Update `index.yaml` so `github:` points to the real repository URL. The checked-in value is intentionally a placeholder until you provide your GitHub owner/repo.
-3. As a minimum check, run the tests: `node --test tests/*.test.mjs`.
-4. Fork `https://github.com/agent0ai/a0-plugins`.
-5. Add `plugins/daydrift_theme_engine/index.yaml` to the fork.
-6. Open a PR.
+To submit:
+
+1. Fork `https://github.com/agent0ai/a0-plugins`.
+2. Add `plugins/daydrift_theme_engine/index.yaml` to the fork.
+3. Open a PR.
