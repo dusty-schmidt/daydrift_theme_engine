@@ -229,10 +229,15 @@ body.dynamic-daydrift-theme #chat-history .terminal-output * {
   color: var(--color-text) !important;
 }
 
-/* Message bubble containers — subtle background for visual separation */
-body.dynamic-daydrift-theme .message-user,
-body.dynamic-daydrift-theme .message-assistant {
+/* Message bubble containers */
+/* User messages: subtle neutral tint from phase palette */
+body.dynamic-daydrift-theme .message-user {
   background: color-mix(in srgb, var(--color-message-bg) 40%, transparent) !important;
+  border-radius: 6px;
+}
+/* Assistant messages: faint accent tint that shifts with the phase */
+body.dynamic-daydrift-theme .message-assistant {
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-message-bg) 30%) !important;
   border-radius: 6px;
 }
 
