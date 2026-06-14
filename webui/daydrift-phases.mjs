@@ -2,6 +2,9 @@
 // Keep this file data-focused: the engine imports these values and handles
 // interpolation, daily drift, and contrast/readability enforcement.
 
+// Warning text color — constant across all phases (warm amber).
+const WARNING_TEXT = '#d7a85f';
+
 export const DEFAULT_PHASES = [
   {
     name: 'midnight',
@@ -23,7 +26,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#14141a',
       tableRow: '#0c0d12',
       errorText: '#ff6b7a',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -46,7 +49,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#12131a',
       tableRow: '#0b0c11',
       errorText: '#ff6b7a',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -69,7 +72,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#17161e',
       tableRow: '#0e0d13',
       errorText: '#ff6b7a',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -92,7 +95,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#22242c',
       tableRow: '#2e3038',
       errorText: '#ff6b7a',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -115,7 +118,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#3e414c',
       tableRow: '#3d3e43',
       errorText: '#ff6b7a',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -138,7 +141,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#e0e2e6',
       tableRow: '#979a9b',
       errorText: '#686464',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -161,7 +164,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#e5e7eb',
       tableRow: '#989b97',
       errorText: '#686464',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -184,7 +187,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#e7e9ec',
       tableRow: '#9b9a97',
       errorText: '#686464',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -207,7 +210,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#e2e4e8',
       tableRow: '#9b9997',
       errorText: '#686464',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -230,7 +233,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#6b6e7a',
       tableRow: '#32343a',
       errorText: '#ff6b7a',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -253,7 +256,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#332640',
       tableRow: '#201f26',
       errorText: '#ff6b7a',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
   {
@@ -276,7 +279,7 @@ export const DEFAULT_PHASES = [
       chatBackground: '#14151f',
       tableRow: '#0e0f15',
       errorText: '#ff6b7a',
-      warningText: '#d7a85f',
+      warningText: WARNING_TEXT,
     },
   },
 ];
