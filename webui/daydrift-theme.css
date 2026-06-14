@@ -168,80 +168,11 @@ body.dynamic-circadian-theme #input-section [contenteditable="true"] {
   color: var(--color-frame-text) !important;
   caret-color: var(--color-frame-text) !important;
 }
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section input,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section textarea,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section [contenteditable="true"],
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section .cm-content,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section .cm-content *,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section .cm-line,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section .cm-line *,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section .ProseMirror,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section .ProseMirror *,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section [role="textbox"],
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section [role="textbox"] *,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section input,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section textarea,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section [contenteditable="true"],
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section .cm-content,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section .cm-line,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section input,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section textarea,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section [contenteditable="true"],
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section .cm-content,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section .cm-line,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section input,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section textarea,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section [contenteditable="true"],
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section .cm-content,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section .cm-line {
-  color: #27292b !important;
-  caret-color: #27292b !important;
-}
+
 body.dynamic-circadian-theme #input-section input::placeholder,
 body.dynamic-circadian-theme #input-section textarea::placeholder {
   color: var(--color-frame-text-muted, var(--color-text-muted)) !important;
 }
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section input::placeholder,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section textarea::placeholder,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section input::placeholder,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section textarea::placeholder,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section input::placeholder,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section textarea::placeholder,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section input::placeholder,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section textarea::placeholder {
-  color: #44494b !important;
-}
-body.dynamic-circadian-theme #input-section input::selection,
-body.dynamic-circadian-theme #input-section textarea::selection,
-body.dynamic-circadian-theme #input-section [contenteditable="true"]::selection {
-  color: var(--color-frame-text) !important;
-  background: color-mix(in srgb, var(--color-frame-text) 16%, transparent);
-}
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section input::selection,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section textarea::selection,
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section [contenteditable="true"]::selection,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section input::selection,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section textarea::selection,
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section [contenteditable="true"]::selection,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section input::selection,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section textarea::selection,
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section [contenteditable="true"]::selection,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section input::selection,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section textarea::selection,
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section [contenteditable="true"]::selection {
-  color: #27292b !important;
-  background: color-mix(in srgb, #27292b 16%, transparent);
-}
-
-body.dynamic-circadian-theme[data-circadian-phase="morning"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
-body.dynamic-circadian-theme[data-circadian-phase="late_morning"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
-body.dynamic-circadian-theme[data-circadian-phase="solar_noon"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *),
-body.dynamic-circadian-theme[data-circadian-phase="afternoon"] #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *) {
-  color: #27292b !important;
-  caret-color: #27292b !important;
-  -webkit-text-fill-color: #27292b !important;
-}
-
 body.dynamic-circadian-theme #input-section :is(input, textarea, [contenteditable="true"], [role="textbox"], .cm-content, .cm-line, .ProseMirror, .ProseMirror *) {
   color: var(--color-composer-text) !important;
   caret-color: var(--color-composer-text) !important;
